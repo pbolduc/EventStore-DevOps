@@ -72,7 +72,7 @@ Write-Verbose "$(Get-Date -Format 'T') Provision Complete"
 ```
 
 Example output:
-
+```
 VERBOSE: 1:54:35 PM Starting Provision Environment
 VERBOSE: 1:54:35 PM Ensuring Affinity Group 'EventStore' exists and is in 'West US' location.
 VERBOSE: 1:54:35 PM - Begin Operation: Get-AzureAffinityGroup
@@ -98,3 +98,4 @@ VERBOSE: 1:57:47 PM - Completed Operation: New-AzureVM - Create VM ES-demo-2
 VERBOSE: 1:57:47 PM - Begin Operation: New-AzureVM - Create VM ES-demo-3
 VERBOSE: 1:58:53 PM - Completed Operation: New-AzureVM - Create VM ES-demo-3
 VERBOSE: 1:58:53 PM Provision Complete
+```
