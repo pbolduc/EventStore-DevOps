@@ -1,8 +1,8 @@
 # vagrant-eventstore-cluster
 
-```
-Cloned from [seif/vagrant-eventstore-cluster](https://github.com/seif/vagrant-eventstore-cluster)
-```
+
+**Note**: cloned from [seif/vagrant-eventstore-cluster](https://github.com/seif/vagrant-eventstore-cluster)
+
 
 Vagrant files to setup a local EventStore cluster using OpsCode Chef Cookbook
 
