@@ -7,7 +7,7 @@
 Create a multi-machine Event Store cluster on Windows
 
 Parameters  | Default  | Description
-------------- | -------------
+------------- | ------------- | -------------
 adminUsername |  | Admin username used when provisioning virtual machines
 adminPassword |  | Admin password used when provisioning virtual machines
 location | ResourceGroup | Location where resources will be provisioned.  A value of 'ResourceGroup' will deploy the resource to the same location of the resource group the resources are provisioned into
