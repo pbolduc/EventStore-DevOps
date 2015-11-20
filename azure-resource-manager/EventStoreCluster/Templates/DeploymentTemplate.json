@@ -55,7 +55,7 @@
 
     "jumpbox": {
       "type": "string",
-      "defaultValue": "Yes",
+      "defaultValue": "No",
       "allowedValues": [
         "Yes",
         "No"
@@ -72,7 +72,8 @@
         1,
         3,
         5,
-        7
+        7,
+        9
       ],
       "metadata": {
         "description": "Number of Event Store client nodes to provision"
@@ -135,7 +136,7 @@
       "subnet": {
         "cluster": {
           "name": "data",
-          "prefix": "10.0.1.0/24",
+          "prefix": "10.0.1.0/28",
           "vnet": "[parameters('virtualNetworkName')]"
         }
       }
@@ -157,7 +158,7 @@
       },
       "managementPort": "3389",
       "extentionSettings": {
-        "clusternode": {
+        "eventstorenode": {
           "publisher": "Microsoft.Compute",
           "type": "CustomScriptExtension",
           "typeHandlerVersion": "1.4",

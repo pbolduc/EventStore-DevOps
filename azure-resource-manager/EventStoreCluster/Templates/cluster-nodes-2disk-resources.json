@@ -201,7 +201,7 @@
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), 'vm', copyindex())]"
           ],
-          "properties": "[parameters('osSettings').extentionSettings.clusternode]"
+          "properties": "[parameters('osSettings').extentionSettings.eventstorenode]"
         }
       ]
     }
