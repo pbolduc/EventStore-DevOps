@@ -26,7 +26,6 @@
   <!-- vertag<:>end -->
   <ItemGroup>
     <Folder Include="Scripts\" />
-    <Folder Include="Templates\" />
     <Folder Include="Tools\" />
   </ItemGroup>
   <ItemGroup>
@@ -37,6 +36,15 @@
     <Content Include="Templates\DeploymentTemplate.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Templates\cluster-nodes-0disk-resources.json" />
+    <Content Include="Templates\cluster-nodes-16disk-resources.json" />
+    <Content Include="Templates\cluster-nodes-2disk-resources.json" />
+    <Content Include="Templates\cluster-nodes-4disk-resources.json" />
+    <Content Include="Templates\cluster-nodes-8disk-resources.json" />
+    <Content Include="Templates\create-data-disks.ps1" />
+    <Content Include="Templates\DeploymentTemplate.param.dev.json" />
+    <Content Include="Templates\jumpbox-resources.json" />
+    <Content Include="Templates\shared-resources.json" />
     <None Include="Tools\AzCopy.exe" />
     <None Include="Tools\Microsoft.Data.Edm.dll">
       <Visible>False</Visible>

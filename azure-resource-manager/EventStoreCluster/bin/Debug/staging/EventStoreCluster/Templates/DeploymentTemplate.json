@@ -111,7 +111,7 @@
     }
   },
   "variables": {
-    "templateBaseUrl": "https://raw.githubusercontent.com/pbolduc/EventStore-DevOps/master/azure-resource-manager/EventStoreCluster/Templates/",
+    "templateBaseUrl": "https://raw.githubusercontent.com/pbolduc/EventStore-DevOps/arm/azure-resource-manager/EventStoreCluster/Templates/",
     "locationMap": {
       "ResourceGroup": "[resourceGroup().location]",
       "West US": "[parameters('location')]",
@@ -133,12 +133,7 @@
       "virtualNetworkName": "[parameters('virtualNetworkName')]",
       "addressPrefix": "10.0.0.0/16",
       "subnet": {
-        "master": {
-          "name": "master",
-          "prefix": "10.0.0.0/24",
-          "vnet": "[parameters('virtualNetworkName')]"
-        },
-        "data": {
+        "cluster": {
           "name": "data",
           "prefix": "10.0.1.0/24",
           "vnet": "[parameters('virtualNetworkName')]"
@@ -241,7 +236,7 @@
         "storageAccountType": "Standard_LRS"
       }
     },
-    "eventStoreClusterNodesPerStorageAccount": "[variables('eventStoreClusterNodeSkuSettings')[parameters('vmEventStoreNodeCount')].nodesPerStorageAccount]",
+    "eventStoreClusterNodesPerStorageAccount": "[variables('eventStoreClusterNodeSkuSettings')[parameters('vmSizeEventStoreNode')].nodesPerStorageAccount]",
     "storageBinPackMap": [
       "[div(sub(add(1, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
       "[div(sub(add(2, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
