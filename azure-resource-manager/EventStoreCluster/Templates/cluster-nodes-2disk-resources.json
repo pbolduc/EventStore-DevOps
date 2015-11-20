@@ -64,12 +64,6 @@
       "metadata": {
         "description": "The namespace for resources created by this template"
       }
-    },
-    "lbBackendPools": {
-      "type": "object",
-      "metadata": {
-        "description": "loadBalancerBackendAddressPools config object"
-      }
     }
   },
   "variables": {
@@ -119,8 +113,7 @@
               "privateIPAllocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('subnetRef')]"
-              },
-              "loadBalancerBackendAddressPools": "[parameters('lbBackendPools').backendPools]"
+              }
             }
           }
         ]
