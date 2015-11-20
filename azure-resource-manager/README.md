@@ -6,6 +6,21 @@
 
 Create a multi-machine Event Store cluster on Windows
 
+Parameters  | Default  | Description
+------------- | -------------
+adminUsername |  | Admin username used when provisioning virtual machines
+adminPassword |  | Admin password used when provisioning virtual machines
+location | ResourceGroup | Location where resources will be provisioned.  A value of 'ResourceGroup' will deploy the resource to the same location of the resource group the resources are provisioned into
+virtualNetworkName | esvnet | Virtual Network name
+OS | windows | The OS to install on the VM. Allowed values are: windows or ubuntu. ubuntu is not complete yet
+jumpbox | No | Optionally add a virtual machine to the deployment which you can use to connect and manage virtual machines on the internal network
+vmEventStoreNodeCount | 1 | Number of Event Store nodes to provision
+vmSizeEventStoreNode | Standard_D2 | The VM size to deploy
+vmEventStoreDataDiskSize | 1 | Size of each data disk attached to data nodes in (Gb). Each VM size will be provisioned with the maximum number of data disks to maximize the IOPS.
+esVersion | 3.3.0 | The Event Store version to install (not complete)
+
+
+
 * a Storage Account for OS Disks
 * an Availability Set
 * a Virtual Network with a single subnet with 16 available addresses
@@ -15,8 +30,3 @@ Create a multi-machine Event Store cluster on Windows
 
 TODO:
 * add custom script extensions to provision and configure Event Store
-
-
-https://raw.githubusercontent.com/pbolduc/EventStore-DevOps/arm/azure-resource-manager/EventStoreCluster/Templates/DeploymentTemplate.json
-
-https://raw.githubusercontent.com/pbolduc/EventStore-DevOps/arm/azure-resource-manager/EventStoreCluster/Templates/DeploymentTemplate.json#
