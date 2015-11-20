@@ -1,6 +1,6 @@
 # Install Event Store cluster on Virtual Machines
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fpbolduc%2FEventStore-DevOps%2Fmaster%2Fazure-resource-manager%2FEventStoreCluster%2FTemplates%2FDeploymentTemplate.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fpbolduc%2FEventStore-DevOps%2Ftree%2Farm%2Fazure-resource-manager%2FEventStoreCluster%2FTemplates%2FDeploymentTemplate.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
