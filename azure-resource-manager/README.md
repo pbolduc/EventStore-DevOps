@@ -16,7 +16,7 @@ OS | windows | The OS to install on the VM. Allowed values are: windows or ubunt
 jumpbox | No | Optionally add a virtual machine to the deployment which you can use to connect and manage virtual machines on the internal network
 vmEventStoreNodeCount | 1 | Number of Event Store nodes to provision
 vmSizeEventStoreNode | Standard_D2 | The VM size to deploy
-vmEventStoreDataDiskSize | 1 | Size of each data disk attached to data nodes in (Gb). Each VM size will be provisioned with the maximum number of data disks to maximize the IOPS.
+vmEventStoreDataDiskSize | 4 | Size of each data disk attached to data nodes in (Gb). Each VM size will be provisioned with the maximum number of data disks to maximize the IOPS. You can only pool disks that have 4GB of contiguous unallocated space.
 esVersion | 3.3.0 | The Event Store version to install (not complete)
 
 

@@ -104,9 +104,9 @@
     },
     "vmEventStoreDataDiskSize": {
       "type": "int",
-      "defaultValue": 1,
+      "defaultValue": 4,
       "metadata": {
-        "description": "Size of each data disk attached to data nodes in (Gb)"
+        "description": "Size of each data disk attached to data nodes in (Gb). You can only pool disks that have 4GB of contiguous unallocated space."
       }
     },
     "esVersion": {
