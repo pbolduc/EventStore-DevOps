@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>341b0e9d-b73c-4a58-9f21-e6826763f074</ProjectGuid>
+    <ProjectGuid>637b288b-477e-48a9-b609-f894ea0f566b</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup>
     <TargetFrameworkIdentifier>Deployment</TargetFrameworkIdentifier>
@@ -26,6 +26,7 @@
   <!-- vertag<:>end -->
   <ItemGroup>
     <Folder Include="Scripts\" />
+    <Folder Include="Templates\" />
     <Folder Include="Tools\" />
   </ItemGroup>
   <ItemGroup>
@@ -33,9 +34,8 @@
       <Visible>False</Visible>
     </None>
     <Content Include="Scripts\Deploy-AzureResourceGroup.ps1" />
-    <Content Include="Templates\WindowsVirtualMachine.json" />
-    <None Include="Templates\snippets.json" />
-    <None Include="Templates\WindowsVirtualMachine.param.dev.json" />
+    <Content Include="Templates\DeploymentTemplate.json" />
+    <None Include="Templates\DeploymentTemplate.param.dev.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Tools\AzCopy.exe" />

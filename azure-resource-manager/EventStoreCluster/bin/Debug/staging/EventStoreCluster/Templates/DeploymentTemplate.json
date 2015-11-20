@@ -1,0 +1,377 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Admin username used when provisioning virtual machines"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password used when provisioning virtual machines"
+      }
+    },
+    "location": {
+      "type": "string",
+      "allowedValues": [
+        "ResourceGroup",
+        "West US",
+        "East US",
+        "East US 2",
+        "Central US",
+        "South Central US",
+        "North Central US",
+        "East Asia",
+        "Southeast Asia",
+        "West Europe",
+        "North Europe"
+      ],
+      "defaultValue": "ResourceGroup",
+      "metadata": {
+        "description": "Location where resources will be provisioned.  A value of 'ResourceGroup' will deploy the resource to the same location of the resource group the resources are provisioned into"
+      }
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "defaultValue": "esvnet",
+      "metadata": {
+        "description": "Virtual Network"
+      }
+    },
+    "OS": {
+      "type": "string",
+      "defaultValue": "ubuntu",
+      "allowedValues": [
+        "ubuntu",
+        "windows"
+      ],
+      "metadata": {
+        "description": "The operating system to deploy Event Store cluster on"
+      }
+    },
+
+    "jumpbox": {
+      "type": "string",
+      "defaultValue": "Yes",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Optionally add a virtual machine to the deployment which you can use to connect and manage virtual machines on the internal network"
+      }
+    },
+
+    "vmEventStoreNodeCount": {
+      "type": "int",
+      "defaultValue": 1,
+      "allowedValues": [
+        1,
+        3,
+        5,
+        7
+      ],
+      "metadata": {
+        "description": "Number of Event Store client nodes to provision"
+      }
+    },
+
+    "vmSizeEventStoreNode": {
+      "type": "string",
+      "defaultValue": "Standard_D2",
+      "allowedValues": [
+        "Standard_D1",
+        "Standard_D2",
+        "Standard_D3",
+        "Standard_D4",
+        "Standard_A2",
+        "Standard_A3",
+        "Standard_A4",
+        "Standard_A7",
+        "Standard_DS1",
+        "Standard_DS2",
+        "Standard_DS3",
+        "Standard_DS4",
+        "Standard_DS13"
+      ],
+      "metadata": {
+        "description": "Size of the Event Store data nodes"
+      }
+    },
+
+    "esVersion": {
+      "type": "string",
+      "defaultValue": "3.3.0",
+      "metadata": {
+        "description": "Event Store version to install"
+      }
+    }
+  },
+  "variables": {
+    "templateBaseUrl": "https://raw.githubusercontent.com/pbolduc/EventStore-DevOps/master/azure-resource-manager/EventStoreCluster/Templates/",
+    "locationMap": {
+      "ResourceGroup": "[resourceGroup().location]",
+      "West US": "[parameters('location')]",
+      "East US": "[parameters('location')]",
+      "East US 2": "[parameters('location')]",
+      "Central US": "[parameters('location')]",
+      "South Central US": "[parameters('location')]",
+      "North Central US": "[parameters('location')]",
+      "East Asia": "[parameters('location')]",
+      "Southeast Asia": "[parameters('location')]",
+      "West Europe": "[parameters('location')]",
+      "North Europe": "[parameters('location')]"
+    },
+    "location": "[variables('locationMap')[parameters('location')]]",
+    "storageAccountPrefix": "eventstore",
+    "storageAccountNameShared": "[concat(variables('storageAccountPrefix'), 's', uniqueString(resourceGroup().id, deployment().name))]",
+    "masterNodesIpPrefix": "10.0.0.1",
+    "networkSettings": {
+      "virtualNetworkName": "[parameters('virtualNetworkName')]",
+      "addressPrefix": "10.0.0.0/16",
+      "subnet": {
+        "master": {
+          "name": "master",
+          "prefix": "10.0.0.0/24",
+          "vnet": "[parameters('virtualNetworkName')]"
+        },
+        "data": {
+          "name": "data",
+          "prefix": "10.0.1.0/24",
+          "vnet": "[parameters('virtualNetworkName')]"
+        }
+      }
+    },
+    "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
+    "jumpboxTemplateYes": "jumpbox-resources.json",
+    "jumpboxTemplateNo": "empty-resources.json",
+    "jumpboxTemplateUrl": "[concat(variables('templateBaseUrl'), variables(concat('jumpboxTemplate',parameters('jumpbox'))))]",
+
+    "windowsScripts": [
+      "[concat(variables('templateBaseUrl'), 'create-data-disks.ps1')]"
+    ],
+    "windowsSettings": {
+      "imageReference": {
+        "publisher": "MicrosoftWindowsServer",
+        "offer": "WindowsServer",
+        "sku": "2012-R2-Datacenter",
+        "version": "latest"
+      },
+      "managementPort": "3389",
+      "extentionSettings": {
+        "clusternode": {
+          "publisher": "Microsoft.Compute",
+          "type": "CustomScriptExtension",
+          "typeHandlerVersion": "1.4",
+          "settings": {
+            "fileUris": "[variables('windowsScripts')]",
+            "commandToExecute": "powershell.exe -File create-data-disks.ps1"
+          }
+        }
+      }
+    },
+    "osSettings": "[variables(concat(parameters('OS'), 'Settings'))]",
+    "dataSkuSettings": {
+      "Standard_D1": {
+        "dataDisks": 2,
+        "nodesPerStorageAccount": 6,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_D2": {
+        "dataDisks": 4,
+        "nodesPerStorageAccount": 4,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_D3": {
+        "dataDisks": 8,
+        "nodesPerStorageAccount": 3,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_D4": {
+        "dataDisks": 16,
+        "nodesPerStorageAccount": 2,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_DS1": {
+        "dataDisks": 2,
+        "nodesPerStorageAccount": 6,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_DS2": {
+        "dataDisks": 4,
+        "nodesPerStorageAccount": 4,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_DS3": {
+        "dataDisks": 8,
+        "nodesPerStorageAccount": 4,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_DS4": {
+        "dataDisks": 16,
+        "nodesPerStorageAccount": 2,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_DS13": {
+        "dataDisks": 16,
+        "nodesPerStorageAccount": 2,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_A2": {
+        "dataDisks": 4,
+        "nodesPerStorageAccount": 6,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_A3": {
+        "dataDisks": 8,
+        "nodesPerStorageAccount": 4,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_A4": {
+        "dataDisks": 16,
+        "nodesPerStorageAccount": 2,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_A7": {
+        "dataDisks": 16,
+        "nodesPerStorageAccount": 2,
+        "storageAccountType": "Standard_LRS"
+      }
+    },
+    "nodesPerStorageAccount": "[variables('dataSkuSettings')[parameters('vmEventStoreNodeCount')].nodesPerStorageAccount]",
+    "storageBinPackMap": [
+      "[div(sub(add(1, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(2, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(3, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(4, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(5, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(6, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(7, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(8, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(9, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(10, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(11, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(12, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(13, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(14, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(15, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(16, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(17, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(18, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(19, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(20, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(21, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(22, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(23, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(24, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(25, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(26, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(27, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(28, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(29, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(30, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(31, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(32, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(33, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(34, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(35, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(36, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(37, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(38, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(39, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(40, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(51, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(52, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(53, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(54, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(55, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(56, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(57, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(58, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(59, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "[div(sub(add(60, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]"
+    ],
+    "dataNodeStorageSettings": {
+      "count": "[div(sub(add(parameters('vmEventStoreNodeCount'), variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+      "mapping": "[variables('storageBinPackMap')]",
+      "accountType": "[variables('dataSkuSettings')[parameters('vmSizeEventStoreNode')].storageAccountType]",
+      "prefix": "[concat(variables('storageAccountPrefix'), 'd', uniqueString(resourceGroup().id, deployment().name))]"
+    },
+    "dataTemplateUrl": "[concat(variables('templateBaseUrl'), 'data-nodes-', string(variables('dataSkuSettings')[parameters('vmSizeEventStoreNode')].dataDisks), 'disk-resources.json')]"
+  },
+  "resources": [
+    {
+      "name": "shared",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('sharedTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[variables('location')]"
+          },
+          "networkSettings": {
+            "value": "[variables('networkSettings')]"
+          },
+          "storageAccountName": {
+            "value": "[variables('storageAccountNameShared')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "cluster-nodes",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'shared')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('dataTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "location": {
+            "value": "[variables('location')]"
+          },
+          "storageSettings": {
+            "value": "[variables('dataNodeStorageSettings')]"
+          },
+          "subnet": {
+            "value": "[variables('networkSettings').subnet.data]"
+          },
+          "vmSize": {
+            "value": "[parameters('vmSizeEventStoreNode')]"
+          },
+          "vmCount": {
+            "value": "[parameters('vmEventStoreNodeCount')]"
+          },
+          "namespace": {
+            "value": "esdata"
+          },
+          "osSettings": {
+            "value": "[variables('osSettings')]"
+          }
+        }
+      }
+    },
+
+  ],
+  "outputs": {
+  }
+}
