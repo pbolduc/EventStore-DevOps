@@ -325,17 +325,7 @@
           ]
         }
       },
-      "resources": [
-        {
-          "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(parameters('namespace'),'vm', copyindex(), '/installelasticsearch')]",
-          "apiVersion": "2015-06-15",
-          "location": "[parameters('location')]",
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), 'vm', copyindex())]"
-          ],
-          "properties": "[parameters('osSettings').extentionSettings.eventstore]"
-        }
+      "resources": [       
       ]
     }
   ]

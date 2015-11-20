@@ -99,7 +99,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(parameters('namespace'), 'nic', copyindex(1))]",
+      "name": "[concat(parameters('namespace'), 'nic', copyindex())]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "[concat(parameters('namespace'),'nicLoop')]",
@@ -122,14 +122,14 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(parameters('namespace'), 'vm', copyindex(1))]",
+      "name": "[concat(parameters('namespace'), 'vm', copyindex())]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "[concat(parameters('namespace'), 'virtualMachineLoop')]",
         "count": "[parameters('vmCount')]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'), 'nic', copyindex(1))]",
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'), 'nic', copyindex())]",
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'), parameters('storageSettings').mapping[copyindex()])]"
       ],
       "properties": {
@@ -140,7 +140,7 @@
           "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computername": "[concat(parameters('namespace'), 'vm', copyIndex(1))]",
+          "computername": "[concat(parameters('namespace'), 'vm', copyIndex())]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -206,16 +206,6 @@
         }
       },
       "resources": [
-        {
-          "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(parameters('namespace'),'vm', copyindex(), '/installelasticsearch')]",
-          "apiVersion": "2015-06-15",
-          "location": "[parameters('location')]",
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), 'vm', copyindex())]"
-          ],
-          "properties": "[parameters('osSettings').extentionSettings.eventstore]"
-        }
       ]
     }
   ]
