@@ -35,7 +35,6 @@
     </None>
     <Content Include="Scripts\Deploy-AzureResourceGroup.ps1" />
     <Content Include="Templates\DeploymentTemplate.json" />
-    <None Include="Templates\DeploymentTemplate.param.dev.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Tools\AzCopy.exe" />

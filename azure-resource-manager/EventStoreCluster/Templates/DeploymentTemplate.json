@@ -174,7 +174,7 @@
       }
     },
     "osSettings": "[variables(concat(parameters('OS'), 'Settings'))]",
-    "dataSkuSettings": {
+    "eventStoreClusterNodeSkuSettings": {
       "Standard_D1": {
         "dataDisks": 2,
         "nodesPerStorageAccount": 6,
@@ -241,66 +241,66 @@
         "storageAccountType": "Standard_LRS"
       }
     },
-    "nodesPerStorageAccount": "[variables('dataSkuSettings')[parameters('vmEventStoreNodeCount')].nodesPerStorageAccount]",
+    "eventStoreClusterNodesPerStorageAccount": "[variables('eventStoreClusterNodeSkuSettings')[parameters('vmEventStoreNodeCount')].nodesPerStorageAccount]",
     "storageBinPackMap": [
-      "[div(sub(add(1, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(2, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(3, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(4, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(5, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(6, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(7, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(8, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(9, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(10, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(11, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(12, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(13, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(14, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(15, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(16, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(17, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(18, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(19, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(20, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(21, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(22, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(23, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(24, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(25, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(26, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(27, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(28, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(29, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(30, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(31, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(32, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(33, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(34, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(35, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(36, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(37, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(38, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(39, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(40, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(51, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(52, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(53, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(54, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(55, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(56, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(57, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(58, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(59, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
-      "[div(sub(add(60, variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]"
+      "[div(sub(add(1, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(2, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(3, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(4, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(5, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(6, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(7, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(8, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(9, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(10, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(11, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(12, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(13, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(14, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(15, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(16, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(17, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(18, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(19, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(20, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(21, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(22, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(23, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(24, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(25, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(26, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(27, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(28, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(29, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(30, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(31, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(32, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(33, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(34, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(35, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(36, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(37, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(38, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(39, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(40, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(51, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(52, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(53, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(54, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(55, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(56, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(57, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(58, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(59, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
+      "[div(sub(add(60, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]"
     ],
-    "dataNodeStorageSettings": {
-      "count": "[div(sub(add(parameters('vmEventStoreNodeCount'), variables('nodesPerStorageAccount')), 1), variables('nodesPerStorageAccount'))]",
+    "clusterNodeStorageSettings": {
+      "count": "[div(sub(add(parameters('vmEventStoreNodeCount'), variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
       "mapping": "[variables('storageBinPackMap')]",
-      "accountType": "[variables('dataSkuSettings')[parameters('vmSizeEventStoreNode')].storageAccountType]",
+      "accountType": "[variables('eventStoreClusterNodeSkuSettings')[parameters('vmSizeEventStoreNode')].storageAccountType]",
       "prefix": "[concat(variables('storageAccountPrefix'), 'd', uniqueString(resourceGroup().id, deployment().name))]"
     },
-    "dataTemplateUrl": "[concat(variables('templateBaseUrl'), 'data-nodes-', string(variables('dataSkuSettings')[parameters('vmSizeEventStoreNode')].dataDisks), 'disk-resources.json')]"
+    "clusterNodeTemplateUrl": "[concat(variables('templateBaseUrl'), 'cluster-nodes-', string(variables('eventStoreClusterNodeSkuSettings')[parameters('vmSizeEventStoreNode')].dataDisks), 'disk-resources.json')]"
   },
   "resources": [
     {
@@ -336,7 +336,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('dataTemplateUrl')]",
+          "uri": "[variables('clusterNodeTemplateUrl')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -350,7 +350,7 @@
             "value": "[variables('location')]"
           },
           "storageSettings": {
-            "value": "[variables('dataNodeStorageSettings')]"
+            "value": "[variables('clusterNodeStorageSettings')]"
           },
           "subnet": {
             "value": "[variables('networkSettings').subnet.data]"
