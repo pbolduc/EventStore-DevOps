@@ -149,7 +149,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://', variables('storageAccountName'), parameters('storageSettings').mapping[copyindex()], '.blob.core.windows.net/vhds/', variables('vmName'), copyindex(), '-osdisk.vhd')]"
+              "uri": "[concat('http://', variables('storageAccountName'), parameters('storageSettings').mapping[copyindex()], '.blob.core.windows.net/vhd/', variables('vmName'), copyindex(), '-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -211,8 +211,7 @@
           "name": "[concat(parameters('namespace'),'vm', copyindex(), '/createdatadisk')]",
           "location": "[parameters('location')]",
           "apiVersion": "2015-06-15",
-          "dependsOn": [
-            
+          "dependsOn": [            
             "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), 'vm', copyindex())]"
           ],
           "properties": "[parameters('osSettings').extentionSettings.eventstore]"
