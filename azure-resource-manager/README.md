@@ -4,7 +4,7 @@
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
-Create a multi-machine Event Store cluster on Windows
+Create a multi-machine Event Store cluster on Windows or Ubuntu.  This template is heavily influenced by the [Elasticsearch cluster on Virtual Machines](https://github.com/Azure/azure-quickstart-templates/tree/master/elasticsearch) template sample on GitHub.
 
 Parameters  | Default  | Description
 ------------- | ------------- | -------------
