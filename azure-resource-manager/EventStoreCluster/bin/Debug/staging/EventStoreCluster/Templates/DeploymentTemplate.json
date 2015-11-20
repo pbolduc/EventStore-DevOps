@@ -134,7 +134,7 @@
       "virtualNetworkName": "[parameters('virtualNetworkName')]",
       "addressPrefix": "10.0.0.0/16",
       "subnet": {
-        "cluster": {
+        "eventstorenode": {
           "name": "data",
           "prefix": "10.0.1.0/28",
           "vnet": "[parameters('virtualNetworkName')]"
@@ -349,7 +349,7 @@
             "value": "[variables('clusterNodeStorageSettings')]"
           },
           "subnet": {
-            "value": "[variables('networkSettings').subnet.data]"
+            "value": "[variables('networkSettings').subnet.eventstorenode]"
           },
           "vmSize": {
             "value": "[parameters('vmSizeEventStoreNode')]"
