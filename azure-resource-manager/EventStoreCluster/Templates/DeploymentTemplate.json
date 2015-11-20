@@ -358,7 +358,7 @@
             "value": "[parameters('vmEventStoreNodeCount')]"
           },
           "namespace": {
-            "value": "escluster"
+            "value": "esnode"
           },
           "osSettings": {
             "value": "[variables('osSettings')]"
