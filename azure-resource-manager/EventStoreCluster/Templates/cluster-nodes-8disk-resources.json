@@ -246,6 +246,16 @@
         }
       },
       "resources": [
+        {
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(parameters('namespace'),'vm', copyindex(), '/createdatadisk')]",
+          "location": "[parameters('location')]",
+          "apiVersion": "2015-06-15",
+          "dependsOn": [            
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), 'vm', copyindex())]"
+          ],
+          "properties": "[parameters('osSettings').extentionSettings.eventstore]"
+        }
       ]
     }
   ]
