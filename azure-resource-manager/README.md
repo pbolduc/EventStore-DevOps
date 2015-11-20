@@ -8,16 +8,16 @@ Create a multi-machine Event Store cluster on Windows or Ubuntu.  This template 
 
 Parameters  | Default  | Description
 ------------- | ------------- | -------------
-adminUsername |  | Admin username used when provisioning virtual machines
-adminPassword |  | Admin password used when provisioning virtual machines
+adminUsername |  | The operating system admin username used when provisioning virtual machines
+adminPassword |  | The operating system admin password used when provisioning virtual machines
 location | ResourceGroup | Location where resources will be provisioned.  A value of 'ResourceGroup' will deploy the resource to the same location of the resource group the resources are provisioned into
 virtualNetworkName | esvnet | Virtual Network name
-OS | windows | The OS to install on the VM. Allowed values are: windows or ubuntu. ubuntu is not complete yet
+OS | windows | The operating system to install on the VM. Allowed values are: windows or ubuntu. (*ubuntu is not complete*)
 jumpbox | No | Optionally add a virtual machine to the deployment which you can use to connect and manage virtual machines on the internal network
 vmEventStoreNodeCount | 1 | Number of Event Store nodes to provision
 vmSizeEventStoreNode | Standard_D2 | The VM size to deploy
-vmEventStoreDataDiskSize | 4 | Size of each data disk attached to data nodes in (Gb). Each VM size will be provisioned with the maximum number of data disks to maximize the IOPS. You can only pool disks that have 4GB of contiguous unallocated space.
-esVersion | 3.3.0 | The Event Store version to install (not complete)
+vmEventStoreDataDiskSize | 4 | Size of each data disk attached to data nodes in (Gb). Each VM size will be provisioned with the maximum number of data disks to maximize the IOPS. In Windows, you can only pool disks that have 4GB of contiguous unallocated space.
+esVersion | 3.3.0 | The Event Store version to install (*install is not complete*)
 
 
 
