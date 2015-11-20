@@ -134,7 +134,7 @@
       "virtualNetworkName": "[parameters('virtualNetworkName')]",
       "addressPrefix": "10.0.0.0/16",
       "subnet": {
-        "eventstorenode": {
+        "eventstorecluster": {
           "name": "eventstorecluster",
           "prefix": "10.0.1.0/28",
           "vnet": "[parameters('virtualNetworkName')]"

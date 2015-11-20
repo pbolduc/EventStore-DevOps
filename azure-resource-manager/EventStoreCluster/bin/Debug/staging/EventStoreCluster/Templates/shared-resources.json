@@ -46,9 +46,9 @@
         },
         "subnets": [
           {
-            "name": "[parameters('networkSettings').subnet.cluster.name]",
+            "name": "[parameters('networkSettings').subnet.eventstorecluster.name]",
             "properties": {
-              "addressPrefix": "[parameters('networkSettings').subnet.cluster.prefix]"
+              "addressPrefix": "[parameters('networkSettings').subnet.eventstorecluster.prefix]"
             }
           }
         ]
