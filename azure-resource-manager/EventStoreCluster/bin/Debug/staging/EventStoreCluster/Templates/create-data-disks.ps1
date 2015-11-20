@@ -33,7 +33,6 @@ Write-Verbose 'Creating Partition'
 
 New-Partition -DiskNumber $diskNumber `
 		  -UseMaximumSize `
-		  -AssignDriveLetter `
 		  -DriveLetter F
  
 Start-Sleep -Seconds 20
