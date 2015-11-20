@@ -349,7 +349,7 @@
             "value": "[variables('clusterNodeStorageSettings')]"
           },
           "subnet": {
-            "value": "[variables('networkSettings').subnet.eventstorenode]"
+            "value": "[variables('networkSettings').subnet.eventstore]"
           },
           "vmSize": {
             "value": "[parameters('vmSizeEventStoreNode')]"
