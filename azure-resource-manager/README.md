@@ -1,6 +1,6 @@
 # Install Event Store cluster on Virtual Machines
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fpbolduc%2FEventStore-DevOps%2Ftree%2Farm%2Fazure-resource-manager%2FEventStoreCluster%2FTemplates%2FDeploymentTemplate.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fpbolduc%2FEventStore-DevOps%2Farm%2Fazure-resource-manager%2FEventStoreCluster%2FTemplates%2FDeploymentTemplate.json#" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
@@ -16,3 +16,8 @@ Create a multi-machine Event Store cluster on Windows
 
 TODO:
 * add custom script extensions to provision and configure Event Store
+
+
+https://raw.githubusercontent.com/pbolduc/EventStore-DevOps/arm/azure-resource-manager/EventStoreCluster/Templates/DeploymentTemplate.json
+
+https://raw.githubusercontent.com/pbolduc/EventStore-DevOps/arm/azure-resource-manager/EventStoreCluster/Templates/DeploymentTemplate.json#
