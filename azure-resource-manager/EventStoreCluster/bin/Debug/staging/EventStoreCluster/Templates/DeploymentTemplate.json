@@ -128,7 +128,7 @@
     },
     "location": "[variables('locationMap')[parameters('location')]]",
     "storageAccountPrefix": "esdata",
-    "storageAccountNameShared": "[concat(variables('storageAccountPrefix'), 's', uniqueString(resourceGroup().id, deployment().name))]",
+    "storageAccountNameShared": "[concat(variables('storageAccountPrefix'), uniqueString(resourceGroup().id, deployment().name))]",
     "masterNodesIpPrefix": "10.0.0.1",
     "networkSettings": {
       "virtualNetworkName": "[parameters('virtualNetworkName')]",
