@@ -134,8 +134,8 @@
       "virtualNetworkName": "[parameters('virtualNetworkName')]",
       "addressPrefix": "10.0.0.0/16",
       "subnet": {
-        "eventstorecluster": {
-          "name": "eventstorecluster",
+        "eventstore": {
+          "name": "eventstore",
           "prefix": "10.0.1.0/28",
           "vnet": "[parameters('virtualNetworkName')]"
         }
@@ -158,7 +158,7 @@
       },
       "managementPort": "3389",
       "extentionSettings": {
-        "eventstorenode": {
+        "eventstore": {
           "publisher": "Microsoft.Compute",
           "type": "CustomScriptExtension",
           "typeHandlerVersion": "1.4",
@@ -365,8 +365,7 @@
           }
         }
       }
-    },
-
+    }
   ],
   "outputs": {
   }
