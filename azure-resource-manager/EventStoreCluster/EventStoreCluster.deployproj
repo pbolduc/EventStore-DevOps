@@ -33,7 +33,7 @@
       <Visible>False</Visible>
     </None>
     <Content Include="Scripts\Deploy-AzureResourceGroup.ps1" />
-    <Content Include="Templates\DeploymentTemplate.json" />
+    <Content Include="Templates\azuredeploy.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Templates\cluster-nodes-0disk-resources.json" />
@@ -42,9 +42,11 @@
     <Content Include="Templates\cluster-nodes-4disk-resources.json" />
     <Content Include="Templates\cluster-nodes-8disk-resources.json" />
     <Content Include="Templates\create-data-disks.ps1" />
-    <Content Include="Templates\DeploymentTemplate.param.dev.json" />
+    <Content Include="Templates\azuredeploy.param.dev.json" />
     <Content Include="Templates\jumpbox-resources.json" />
     <Content Include="Templates\shared-resources.json" />
+    <None Include="Templates\empty-resources.json" />
+    <None Include="Templates\install-eventstore.ps1" />
     <None Include="Tools\AzCopy.exe" />
     <None Include="Tools\Microsoft.Data.Edm.dll">
       <Visible>False</Visible>

@@ -130,7 +130,7 @@
     }
   },
   "variables": {
-    "templateBaseUrl": "https://raw.githubusercontent.com/pbolduc/EventStore-DevOps/arm/azure-resource-manager/EventStoreCluster/Templates/",
+    "templateBaseUrl": "https://raw.githubusercontent.com/pbolduc/EventStore-DevOps/master/azure-resource-manager/EventStoreCluster/Templates/",
     "locationMap": {
       "ResourceGroup": "[resourceGroup().location]",
       "West US": "[parameters('location')]",
@@ -147,7 +147,6 @@
     "location": "[variables('locationMap')[parameters('location')]]",
     "storageAccountPrefix": "esdata",
     "storageAccountNameShared": "[concat(variables('storageAccountPrefix'), 's', uniqueString(resourceGroup().id, deployment().name))]",
-    "masterNodesIpPrefix": "10.0.0.1",
     "networkSettings": {
       "virtualNetworkName": "[parameters('virtualNetworkName')]",
       "addressPrefix": "10.0.0.0/16",
@@ -163,9 +162,9 @@
     "jumpboxTemplateYes": "jumpbox-resources.json",
     "jumpboxTemplateNo": "empty-resources.json",
     "jumpboxTemplateUrl": "[concat(variables('templateBaseUrl'), variables(concat('jumpboxTemplate',parameters('jumpbox'))))]",
-
     "windowsScripts": [
-      "[concat(variables('templateBaseUrl'), 'create-data-disks.ps1')]"
+      "[concat(variables('templateBaseUrl'), 'create-data-disks.ps1')]",
+      "[concat(variables('templateBaseUrl'), 'install-eventstore.ps1')]"
     ],
     "windowsSettings": {
       "imageReference": {
@@ -187,34 +186,8 @@
         }
       }
     },
-    "eventStoreDownloadMap": {
-      "ubuntu": {
-        "3.0.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.0.tar.gz",
-        "3.0.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.1.tar.gz",
-        "3.0.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.2.tar.gz",
-        "3.0.3": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.3.tar.gz",
-        "3.0.5": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.5.tar.gz",
-        "3.1.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.1.0.tar.gz",
-        "3.2.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.2.0.tar.gz",
-        "3.2.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.2.1.tar.gz",
-        "3.2.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.2.2.tar.gz",
-        "3.3.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.3.0.tar.gz"
-      },
-      "windows": {
-        "3.0.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.0.zip",
-        "3.0.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.1.zip",
-        "3.0.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.2.zip",
-        "3.0.3": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.3.zip",
-        "3.0.5": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.5.zip",
-        "3.1.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.1.0.zip",
-        "3.2.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.2.0.zip",
-        "3.2.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.2.1.zip",
-        "3.2.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.2.2.zip",
-        "3.3.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.3.0.zip"
-      }
-    },
     "osSettings": "[variables(concat(parameters('OS'), 'Settings'))]",
-    "eventStoreClusterNodeSkuSettings": {
+    "virtualMachineSkuSettings": {
       "Standard_D1": {
         "dataDisks": 2,
         "nodesPerStorageAccount": 6,
@@ -281,7 +254,7 @@
         "storageAccountType": "Standard_LRS"
       }
     },
-    "eventStoreClusterNodesPerStorageAccount": "[variables('eventStoreClusterNodeSkuSettings')[parameters('vmSizeEventStoreNode')].nodesPerStorageAccount]",
+    "eventStoreClusterNodesPerStorageAccount": "[variables('virtualMachineSkuSettings')[parameters('vmSizeEventStoreNode')].nodesPerStorageAccount]",
     "storageBinPackMap": [
       "[div(sub(add(1, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
       "[div(sub(add(2, variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
@@ -337,10 +310,36 @@
     "clusterNodeStorageSettings": {
       "count": "[div(sub(add(parameters('vmEventStoreNodeCount'), variables('eventStoreClusterNodesPerStorageAccount')), 1), variables('eventStoreClusterNodesPerStorageAccount'))]",
       "mapping": "[variables('storageBinPackMap')]",
-      "accountType": "[variables('eventStoreClusterNodeSkuSettings')[parameters('vmSizeEventStoreNode')].storageAccountType]",
+      "accountType": "[variables('virtualMachineSkuSettings')[parameters('vmSizeEventStoreNode')].storageAccountType]",
       "prefix": "[concat(variables('storageAccountPrefix'), 'd', uniqueString(resourceGroup().id, deployment().name))]"
     },
-    "clusterNodeTemplateUrl": "[concat(variables('templateBaseUrl'), 'cluster-nodes-', string(variables('eventStoreClusterNodeSkuSettings')[parameters('vmSizeEventStoreNode')].dataDisks), 'disk-resources.json')]"
+    "clusterNodeTemplateUrl": "[concat(variables('templateBaseUrl'), 'cluster-nodes-', string(variables('virtualMachineSkuSettings')[parameters('vmSizeEventStoreNode')].dataDisks), 'disk-resources.json')]",
+    "eventStoreDownloadMap": {
+      "ubuntu": {
+        "3.0.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.0.tar.gz",
+        "3.0.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.1.tar.gz",
+        "3.0.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.2.tar.gz",
+        "3.0.3": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.3.tar.gz",
+        "3.0.5": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.5.tar.gz",
+        "3.1.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.1.0.tar.gz",
+        "3.2.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.2.0.tar.gz",
+        "3.2.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.2.1.tar.gz",
+        "3.2.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.2.2.tar.gz",
+        "3.3.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.3.0.tar.gz"
+      },
+      "windows": {
+        "3.0.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.0.zip",
+        "3.0.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.1.zip",
+        "3.0.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.2.zip",
+        "3.0.3": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.3.zip",
+        "3.0.5": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.5.zip",
+        "3.1.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.1.0.zip",
+        "3.2.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.2.0.zip",
+        "3.2.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.2.1.zip",
+        "3.2.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.2.2.zip",
+        "3.3.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.3.0.zip"
+      }
+    }
   },
   "resources": [
     {
@@ -362,7 +361,8 @@
           },
           "storageAccountName": {
             "value": "[variables('storageAccountNameShared')]"
-          }
+          },
+          "subnet": { "value": "eventstore" }
         }
       }
     },

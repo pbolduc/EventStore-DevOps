@@ -19,6 +19,12 @@
       "metadata": {
         "description": "Storage account used for share virtual machine images"
       }
+    },
+    "subnet": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the subnet to use from the network settings."
+      }
     }
   },
   "variables": {
@@ -46,9 +52,9 @@
         },
         "subnets": [
           {
-            "name": "[parameters('networkSettings').subnet.eventstore.name]",
+            "name": "[parameters('networkSettings').subnet[parameters('subnet')].name]",
             "properties": {
-              "addressPrefix": "[parameters('networkSettings').subnet.eventstore.prefix]"
+              "addressPrefix": "[parameters('networkSettings').subnet[parameters('subnet')].prefix]"
             }
           }
         ]

@@ -1,3 +1,7 @@
+#
+# This script will create a stripped data disk with all available disks.
+# Note: For disks to be added to a pool, they must be at least 4GB in size.
+#
 Write-Verbose 'Creating Storage Pool'
 
 $storagePoolFriendlyName = 'LUN-0'

@@ -1,6 +1,6 @@
 # Install Event Store cluster on Virtual Machines
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fpbolduc%2FEventStore-DevOps%2Fmaster%2Fazure-resource-manager%2FEventStoreCluster%2FTemplates%2FDeploymentTemplate.json#" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fpbolduc%2FEventStore-DevOps%2Fmaster%2Fazure-resource-manager%2FEventStoreCluster%2FTemplates%2Fazuredeploy.json#" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
@@ -16,9 +16,8 @@ OS | windows | The operating system to install on the VM. Allowed values are: wi
 jumpbox | No | Optionally add a virtual machine to the deployment which you can use to connect and manage virtual machines on the internal network
 vmEventStoreNodeCount | 1 | Number of Event Store nodes to provision
 vmSizeEventStoreNode | Standard_D2 | The VM size to deploy
-vmEventStoreDataDiskSize | 4 | Size of each data disk attached to data nodes in (Gb). Each VM size will be provisioned with the maximum number of data disks to maximize the IOPS. In Windows, you can only pool disks that have 4GB of contiguous unallocated space.
+vmEventStoreDataDiskSize | 4 | Size of each data disk attached to data nodes in (Gb). Each VM size will be provisioned with the maximum number of data disks to maximize the IOPS. In Windows, you can only pool disks that have at least 4GB of contiguous unallocated space.
 esVersion | 3.3.0 | The Event Store version to install (*install is not complete*)
-
 
 
 * a Storage Account for OS Disks
