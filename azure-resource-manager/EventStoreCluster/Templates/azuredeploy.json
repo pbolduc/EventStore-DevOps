@@ -154,6 +154,7 @@
         "eventstore": {
           "name": "eventstore",
           "prefix": "10.0.1.0/28",
+          "networkPrefix": "10.0.1",
           "vnet": "[parameters('virtualNetworkName')]"
         }
       }

@@ -110,7 +110,8 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAddress": "[concat(parameters('namespace'), parameters('subnet').networkPrefix, '.', string(add(4,copyindex())))]",
+              "privateIPAllocationMethod": "Static",
               "subnet": {
                 "id": "[variables('subnetRef')]"
               }
@@ -211,7 +212,7 @@
           "name": "[concat(parameters('namespace'),'vm', copyindex(), '/createdatadisk')]",
           "location": "[parameters('location')]",
           "apiVersion": "2015-06-15",
-          "dependsOn": [            
+          "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), 'vm', copyindex())]"
           ],
           "properties": "[parameters('osSettings').extentionSettings.eventstore]"

@@ -76,8 +76,22 @@ netsh http add urlacl url=http://${ipAddress}:${ExtHttpPort}/ user="NT AUTHORITY
 #netsh http add urlacl url=http://$ipAddress:30778/ user="NT AUTHORITY\LOCAL SERVICE"
 
 # Added all the ports, but think I only require the 2112,2113 ports
-New-NetFirewallRule -Name Allow_EventStore_Int_In -DisplayName "Allow inbound Internal Event Store traffic" -Protocol TCP -Direction Inbound -Action Allow -LocalPort ${IntTcpPort},${IntHttpPort}
-New-NetFirewallRule -Name Allow_EventStore_Ext_In -DisplayName "Allow inbound External Event Store traffic" -Protocol TCP -Direction Inbound -Action Allow -LocalPort ${ExtTcpPort},${ExtHttpPort}
+New-NetFirewallRule -Name Allow_EventStore_Int_In `
+					-DisplayName "Allow inbound Internal Event Store traffic" `
+					-Protocol TCP `
+					-Direction Inbound `
+					-Action Allow `
+					-LocalPort ${IntTcpPort},${IntHttpPort} `
+					-RemoteAddress 
+					-Program %SystemDrive%\apps\eventstore-$EventStoreVersion\EventStore.ClusterNode.exe
+
+New-NetFirewallRule -Name Allow_EventStore_Ext_In `
+					-DisplayName "Allow inbound External Event Store traffic" `
+					-Protocol TCP `
+					-Direction Inbound `
+					-Action Allow `
+					-LocalPort ${ExtTcpPort},${ExtHttpPort} `
+					-Program %SystemDrive%\apps\eventstore-$EventStoreVersion\EventStore.ClusterNode.exe
 
 #
 #C:\apps\nssm-2.24\win64\nssm.exe install EventStore C:\apps\eventstore-$EventStoreVersion\EventStore.ClusterNode.exe --config C:\apps\eventstore-config.yaml
