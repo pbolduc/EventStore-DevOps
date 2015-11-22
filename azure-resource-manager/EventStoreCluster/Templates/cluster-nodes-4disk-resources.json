@@ -110,7 +110,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAddress": "[concat(parameters('namespace'), parameters('subnet').networkPrefix, '.', string(add(4,copyindex())))]",
+              "privateIPAddress": "[concat(parameters('subnet').networkPrefix, '.', string(add(4,copyindex())))]",
               "privateIPAllocationMethod": "Static",
               "subnet": {
                 "id": "[variables('subnetRef')]"
