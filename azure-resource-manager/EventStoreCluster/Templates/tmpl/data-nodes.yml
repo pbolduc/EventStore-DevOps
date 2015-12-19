@@ -48,7 +48,7 @@ variables:
   vmStorageAccountContainerName: vhd
   subnetRef: "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('subnet').vnet), '/subnets/', parameters('subnet').name)]"
   storageAccountName: "[concat(parameters('storageSettings').prefix)]"
-  vmName: "[concat(parameters('namespace'), 'vm')]"
+  vmName: "[parameters('namespace')]"
 resources:
 - type: Microsoft.Storage/storageAccounts
   name: "[concat(variables('storageAccountName'), copyindex(1))]"
@@ -61,26 +61,26 @@ resources:
     accountType: "[parameters('storageSettings').accountType]"
 - apiVersion: '2015-06-15'
   type: Microsoft.Compute/availabilitySets
-  name: "[concat(parameters('namespace'), '-set')]"
+  name: "[concat(parameters('namespace'), '-avset')]"
   location: "[parameters('location')]"
   properties:
     platformUpdateDomainCount: 20
     platformFaultDomainCount: 3
 - apiVersion: '2015-06-15'
   type: Microsoft.Network/publicIPAddresses
-  name: "[concat(parameters('namespace'), '-pip', copyindex())]"
+  name: "[concat(parameters('namespace'), '-pip-', copyindex())]"
   location: "[parameters('location')]"
   properties:
     publicIPAllocationMethod: Dynamic
 - apiVersion: '2015-06-15'
   type: Microsoft.Network/networkInterfaces
-  name: "[concat(parameters('namespace'), '-nic', copyindex())]"
+  name: "[concat(parameters('namespace'), '-nic-', copyindex())]"
   location: "[parameters('location')]"
   copy:
     name: "[concat(parameters('namespace'),'nicLoop')]"
     count: "[parameters('vmCount')]"
   dependsOn:
-  - "[concat('Microsoft.Network/publicIPAddresses/', parameters('namespace'), '-pip', copyindex())]"
+  - "[concat('Microsoft.Network/publicIPAddresses/', parameters('namespace'), '-pip-', copyindex())]"
   properties:
     ipConfigurations:
     - name: ipconfig1
@@ -91,13 +91,13 @@ resources:
           id: "[variables('subnetRef')]"
 - apiVersion: '2015-06-15'
   type: Microsoft.Compute/virtualMachines
-  name: "[concat(parameters('namespace'), '-vm', copyindex())]"
+  name: "[concat(parameters('namespace'), '-vm-', copyindex())]"
   location: "[parameters('location')]"
   copy:
     name: "[concat(parameters('namespace'), 'virtualMachineLoop')]"
     count: "[parameters('vmCount')]"
   dependsOn:
-  - "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'), '-nic', copyindex())]"
+  - "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'), '-nic-', copyindex())]"
   - "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'), parameters('storageSettings').mapping[copyindex()])]"
   properties:
     availabilitySet:
@@ -105,7 +105,7 @@ resources:
     hardwareProfile:
       vmSize: "[parameters('vmSize')]"
     osProfile:
-      computername: "[concat(parameters('namespace'), 'vm', copyIndex())]"
+      computername: "[concat(parameters('namespace'), '-vm-', copyIndex())]"
       adminUsername: "[parameters('adminUsername')]"
       adminPassword: "[parameters('adminPassword')]"
     storageProfile:
@@ -113,7 +113,7 @@ resources:
       osDisk:
         name: osdisk
         vhd:
-          uri: "[concat('http://', variables('storageAccountName'), parameters('storageSettings').mapping[copyindex()], '.blob.core.windows.net/vhds/', variables('vmName'), copyindex(), '-osdisk.vhd')]"
+          uri: "[concat('http://', variables('storageAccountName'), parameters('storageSettings').mapping[copyindex()], '.blob.core.windows.net/vhds/', variables('vmName'), '-vm-', copyindex(), '-osdisk.vhd')]"
         caching: ReadWrite
         createOption: FromImage
       dataDisks:
@@ -121,17 +121,17 @@ resources:
         diskSizeGB: "[parameters('dataDiskSize')]"
         lun: 0
         vhd:
-          uri: "[concat('http://', variables('storageAccountName'), parameters('storageSettings').mapping[copyindex()],'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', parameters('namespace'),'vm', copyindex(),'dataDisk::index' ,'.vhd')]"
+          uri: "[concat('http://', variables('storageAccountName'), parameters('storageSettings').mapping[copyindex()],'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', parameters('namespace'),'-vm-', copyindex(),'dataDisk::index' ,'.vhd')]"
         caching: None
         createOption: Empty
     networkProfile:
       networkInterfaces:
-      - id: "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namespace'),'nic', copyindex()))]"
+      - id: "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namespace'),'-nic-', copyindex()))]"
   resources:
   - type: Microsoft.Compute/virtualMachines/extensions
-    name: "[concat(parameters('namespace'),'vm', copyindex(), '/createdatadisk')]"
+    name: "[concat(parameters('namespace'),'-vm-', copyindex(), '/createdatadisk')]"
     location: "[parameters('location')]"
     apiVersion: '2015-06-15'
     dependsOn:
-    - "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), 'vm', copyindex())]"
+    - "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), '-vm-', copyindex())]"
     properties: "[parameters('osSettings').extentionSettings.eventstore]"
