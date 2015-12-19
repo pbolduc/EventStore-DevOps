@@ -166,29 +166,7 @@
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
-          },
-          "dataDisks": [
-            {
-              "name": "datadisk1",
-              "diskSizeGB": "[parameters('dataDiskSize')]",
-              "lun": 0,
-              "vhd": {
-                "uri": "[concat('http://', variables('storageAccountName'), parameters('storageSettings').mapping[copyindex()],'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', parameters('namespace'),'vm', copyindex(),'dataDisk1' ,'.vhd')]"
-              },
-              "caching": "None",
-              "createOption": "Empty"
-            },
-            {
-              "name": "datadisk2",
-              "diskSizeGB": "[parameters('dataDiskSize')]",
-              "lun": 1,
-              "vhd": {
-                "uri": "[concat('http://', variables('storageAccountName'), parameters('storageSettings').mapping[copyindex()],'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', parameters('namespace'),'vm', copyindex(),'dataDisk2' ,'.vhd')]"
-              },
-              "caching": "None",
-              "createOption": "Empty"
-            }
-          ]
+          }
         },
         "networkProfile": {
           "networkInterfaces": [
