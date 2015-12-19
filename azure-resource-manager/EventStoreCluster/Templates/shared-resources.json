@@ -33,7 +33,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "[variables('networkSettings').networkSecurityGroupName]",
+      "name": "[parameters('networkSettings').networkSecurityGroupName]",
       "location": "[parameters('location')]",
       "properties": {
         "securityRules": [
