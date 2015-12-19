@@ -151,6 +151,7 @@
     "storageAccountNameShared": "[concat(variables('storageAccountPrefix'), 's', uniqueString(resourceGroup().id, deployment().name))]",
     "networkSettings": {
       "virtualNetworkName": "[parameters('virtualNetworkName')]",
+	  "networkSecurityGroupName": "[concat(parameters('virtualNetworkName'), '-nsg')]",
       "addressPrefix": "10.0.0.0/16",
       "subnet": {
         "eventstore": {
