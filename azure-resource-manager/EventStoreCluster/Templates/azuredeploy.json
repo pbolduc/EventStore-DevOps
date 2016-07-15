@@ -179,22 +179,13 @@
       },
       "managementPort": "3389",
       "extentionSettings": {
-        "createdatadisks": {
-          "publisher": "Microsoft.Compute",
-          "type": "CustomScriptExtension",
-          "typeHandlerVersion": "1.4",
-          "settings": {
-            "fileUris": [ "[concat(variables('templateBaseUrl'), 'create-data-disks.ps1')]" ],
-            "commandToExecute": "powershell.exe -File create-data-disks.ps1"
-          }
-        },
         "eventstore": {
           "publisher": "Microsoft.Compute",
           "type": "CustomScriptExtension",
           "typeHandlerVersion": "1.4",
           "settings": {
-            "fileUris": [ "[concat(variables('templateBaseUrl'), 'install-eventstore.ps1')]" ],
-            "commandToExecute": "powershell.exe -File install-eventstore.ps1"
+            "fileUris": "[variables('windowsScripts')]",
+            "commandToExecute": "powershell.exe -File master.ps1"
           }
         }
       }

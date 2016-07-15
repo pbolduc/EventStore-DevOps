@@ -231,16 +231,6 @@
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), '-vm-', copyIndex())]"
           ],
-          "properties": "[parameters('osSettings').extentionSettings.createdatadisks]"
-        },
-        {
-          "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(parameters('namespace'),'-vm-', copyIndex(), '/installeventstore')]",
-          "location": "[parameters('location')]",
-          "apiVersion": "2015-06-15",
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), '-vm-', copyIndex())]"
-          ],
           "properties": "[parameters('osSettings').extentionSettings.eventstore]"
         }
       ]

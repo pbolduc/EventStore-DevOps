@@ -47,6 +47,7 @@
     <Content Include="Templates\shared-resources.json" />
     <None Include="Templates\empty-resources.json" />
     <None Include="Templates\install-eventstore.ps1" />
+    <None Include="Templates\master.ps1" />
     <None Include="Tools\AzCopy.exe" />
     <None Include="Tools\Microsoft.Data.Edm.dll">
       <Visible>False</Visible>
