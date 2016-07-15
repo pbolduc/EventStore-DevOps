@@ -167,6 +167,7 @@
     "jumpboxTemplateNo": "empty-resources.json",
     "jumpboxTemplateUrl": "[concat(variables('templateBaseUrl'), variables(concat('jumpboxTemplate',parameters('jumpbox'))))]",
     "windowsScripts": [
+      "[concat(variables('templateBaseUrl'), 'master.ps1')]",
       "[concat(variables('templateBaseUrl'), 'create-data-disks.ps1')]",
       "[concat(variables('templateBaseUrl'), 'install-eventstore.ps1')]"
     ],
