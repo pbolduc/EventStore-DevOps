@@ -186,7 +186,7 @@
           "typeHandlerVersion": "1.4",
           "settings": {
             "fileUris": "[variables('windowsScripts')]",
-            "commandToExecute": "powershell.exe -File master.ps1"
+            "commandToExecute": "powershell.exe -File create-data-disks.ps1"
           }
         }
       }
