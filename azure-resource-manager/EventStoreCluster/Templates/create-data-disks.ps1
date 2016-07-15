@@ -5,7 +5,7 @@
 $ErrorActionPreference="SilentlyContinue"
 Stop-Transcript | out-null
 $ErrorActionPreference = "Continue"
-Start-Transcript -path C:\ps-output.txt -append
+Start-Transcript -path C:\ps-output-createdisks.txt -append -noClobber
 
 Write-Verbose 'Creating Storage Pool'
 

@@ -49,6 +49,11 @@ function Download-FileTo($DownloadUrl, $path) {
 	return $outFile
 }
 
+$ErrorActionPreference="SilentlyContinue"
+Stop-Transcript | out-null
+$ErrorActionPreference = "Continue"
+Start-Transcript -path C:\ps-output-es.txt -append -noClobber
+
 $downloadDirectory = 'D:\download'
 New-Item $downloadDirectory -ItemType Directory | Out-Null
 
@@ -112,3 +117,4 @@ Add-Content F:\eventstore\install-service.cmd "F:\nssm-2.24\win64\nssm.exe set E
 Add-Content F:\eventstore\start-service.cmd "net start EventStore"
 Add-Content F:\eventstore\stop-service.cmd "net stop EventStore"
 
+Stop-Transcript
