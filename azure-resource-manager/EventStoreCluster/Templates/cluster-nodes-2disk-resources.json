@@ -75,7 +75,7 @@
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[concat(variables('storageAccountName'), copyindex(1))]",
+      "name": "[concat(variables('storageAccountName'), copyIndex(1))]",
       "apiVersion": "2015-05-01-preview",
       "location": "[parameters('location')]",
       "copy": {
@@ -99,8 +99,12 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[concat(parameters('namespace'), '-pip-', copyindex())]",
+      "name": "[concat(parameters('namespace'), '-pip-', copyIndex())]",
       "location": "[parameters('location')]",
+      "copy": {
+        "name": "[concat(parameters('namespace'),'pipLoop')]",
+        "count": "[parameters('vmCount')]"
+      },
       "properties": {
         "publicIPAllocationMethod": "Dynamic"
       }
@@ -108,21 +112,21 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(parameters('namespace'), '-nic-', copyindex())]",
+      "name": "[concat(parameters('namespace'), '-nic-', copyIndex())]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "[concat(parameters('namespace'),'nicLoop')]",
         "count": "[parameters('vmCount')]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', parameters('namespace'), '-pip-', copyindex())]"
+        "[concat('Microsoft.Network/publicIPAddresses/', parameters('namespace'), '-pip-', copyIndex())]"
       ],
       "properties": {
         "ipConfigurations": [
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAddress": "[concat(parameters('subnet').networkPrefix, '.', string(add(4,copyindex())))]",
+              "privateIPAddress": "[concat(parameters('subnet').networkPrefix, '.', string(add(4,copyIndex())))]",
               "privateIPAllocationMethod": "Static",
               "subnet": {
                 "id": "[variables('subnetRef')]"
@@ -135,15 +139,15 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(parameters('namespace'), '-vm-', copyindex())]",
+      "name": "[concat(parameters('namespace'), '-vm-', copyIndex())]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "[concat(parameters('namespace'), 'virtualMachineLoop')]",
         "count": "[parameters('vmCount')]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'), '-nic-', copyindex())]",
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'), parameters('storageSettings').mapping[copyindex()])]"
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'), '-nic-', copyIndex())]",
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'), parameters('storageSettings').mapping[copyIndex()])]"
       ],
       "properties": {
         "availabilitySet": {
@@ -162,7 +166,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://', variables('storageAccountName'), parameters('storageSettings').mapping[copyindex()], '.blob.core.windows.net/vhds/', variables('vmName'), '-vm-', copyindex(), '-osdisk.vhd')]"
+              "uri": "[concat('http://', variables('storageAccountName'), parameters('storageSettings').mapping[copyIndex()], '.blob.core.windows.net/vhds/', variables('vmName'), '-vm-', copyIndex(), '-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -173,7 +177,7 @@
               "diskSizeGB": "[parameters('dataDiskSize')]",
               "lun": 0,
               "vhd": {
-                "uri": "[concat('http://', variables('storageAccountName'), parameters('storageSettings').mapping[copyindex()],'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', parameters('namespace'),'-vm-', copyindex(),'dataDisk1' ,'.vhd')]"
+                "uri": "[concat('http://', variables('storageAccountName'), parameters('storageSettings').mapping[copyIndex()],'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', parameters('namespace'),'-vm-', copyIndex(),'dataDisk1' ,'.vhd')]"
               },
               "caching": "None",
               "createOption": "Empty"
@@ -183,7 +187,7 @@
               "diskSizeGB": "[parameters('dataDiskSize')]",
               "lun": 1,
               "vhd": {
-                "uri": "[concat('http://', variables('storageAccountName'), parameters('storageSettings').mapping[copyindex()],'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', parameters('namespace'),'-vm-', copyindex(),'dataDisk2' ,'.vhd')]"
+                "uri": "[concat('http://', variables('storageAccountName'), parameters('storageSettings').mapping[copyIndex()],'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', parameters('namespace'),'-vm-', copyIndex(),'dataDisk2' ,'.vhd')]"
               },
               "caching": "None",
               "createOption": "Empty"
@@ -193,7 +197,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namespace'),'-nic-', copyindex()))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namespace'),'-nic-', copyIndex()))]"
             }
           ]
         }
@@ -201,11 +205,21 @@
       "resources": [
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(parameters('namespace'),'-vm-', copyindex(), '/createdatadisk')]",
+          "name": "[concat(parameters('namespace'),'-vm-', copyIndex(), '/createdatadisk')]",
           "location": "[parameters('location')]",
           "apiVersion": "2015-06-15",
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), '-vm-', copyindex())]"
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), '-vm-', copyIndex())]"
+          ],
+          "properties": "[parameters('osSettings').extentionSettings.createdatadisks]"
+        },
+        {
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(parameters('namespace'),'-vm-', copyIndex(), '/installeventstore')]",
+          "location": "[parameters('location')]",
+          "apiVersion": "2015-06-15",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), '-vm-', copyIndex())]"
           ],
           "properties": "[parameters('osSettings').extentionSettings.eventstore]"
         }

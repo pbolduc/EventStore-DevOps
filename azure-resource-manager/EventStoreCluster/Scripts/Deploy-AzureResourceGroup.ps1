@@ -14,7 +14,7 @@ Param(
   [string] $DSCSourceFolder = '..\DSC'
 )
 
-if (Get-Module -ListAvailable | Where-Object { $_.Name -eq 'AzureResourceManager' -and $_.Version -ge '0.9.9' }) {
+if (Get-Module -ListAvailable | Where-Object { $_.Name -eq 'AzureResourceManager' -and $_.Version -ge '1.5.1' }) {
     Throw "The version of the Azure PowerShell cmdlets installed on this machine are not compatible with this script.  For help updating this script visit: http://go.microsoft.com/fwlink/?LinkID=623011"
 }
 
@@ -63,11 +63,11 @@ if ($UploadArtifacts)
     }
 
     if ($StorageAccountResourceGroupName) {
-        Switch-AzureMode AzureResourceManager
+        # Switch-AzureMode AzureResourceManager
         $StorageAccountKey = (Get-AzureStorageAccountKey -ResourceGroupName $StorageAccountResourceGroupName -Name $StorageAccountName).Key1
     }
     else {
-        Switch-AzureMode AzureServiceManagement
+        # Switch-AzureMode AzureServiceManagement
         $StorageAccountKey = (Get-AzureStorageKey -StorageAccountName $StorageAccountName).Primary 
     }
     
@@ -102,10 +102,11 @@ if ($UploadArtifacts)
 }
 
 # Create or update the resource group using the specified template file and template parameters file
-Switch-AzureMode AzureResourceManager
-New-AzureResourceGroup -Name $ResourceGroupName `
-                       -Location $ResourceGroupLocation `
-                       -TemplateFile $TemplateFile `
-                       -TemplateParameterFile $TemplateParametersFile `
-                        @OptionalParameters `
-                        -Force -Verbose
+# Switch-AzureMode AzureResourceManager
+Login-AzureRmAccount
+New-AzureRmResourceGroup -Name $ResourceGroupName -Location $ResourceGroupLocation
+New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName `
+								   -TemplateFile $TemplateFile `
+								   -TemplateParameterFile $TemplateParametersFile `
+								   @OptionalParameters `
+								   -Force -Verbose
