@@ -2,6 +2,11 @@
 # This script will create a stripped data disk with all available disks.
 # Note: For disks to be added to a pool, they must be at least 4GB in size.
 #
+$ErrorActionPreference="SilentlyContinue"
+Stop-Transcript | out-null
+$ErrorActionPreference = "Continue"
+Start-Transcript -path C:\ps-output.txt -append
+
 Write-Verbose 'Creating Storage Pool'
 
 $storagePoolFriendlyName = 'LUN-0'
@@ -48,3 +53,5 @@ Format-Volume -DriveLetter F `
 		  -NewFileSystemLabel 'Data' `
 		  -Confirm:$false `
 		  -Force
+
+Stop-Transcript
