@@ -46,8 +46,8 @@ Extract-ZipFile -File $nginxZip -Destination F:\nginx\bin\
 #
 # $ipAddress = (Resolve-DnsName $env:COMPUTERNAME -Type A).IPAddress
 					
-# TODO: Include reverse proxy 80 to 2113
-Add-Content F:\nginx\install-service.cmd "F:\nssm-2.24\win64\nssm.exe install Nginx F:\nginx\bin\nginx.exe"
+# TODO: Include reverse proxy 80 to 2113, use version to build folder!
+Add-Content F:\nginx\install-service.cmd "F:\nssm-2.24\win64\nssm.exe install Nginx F:\nginx\bin\nginx-1.10.1\nginx.exe"
 Add-Content F:\nginx\install-service.cmd "F:\nssm-2.24\win64\nssm.exe set Nginx Description ""The Nginx service"""
 
 Add-Content F:\nginx\start-service.cmd "net start Nginx"
