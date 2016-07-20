@@ -16,7 +16,6 @@ Start-Transcript -path C:\ps-output-master.txt -append -noClobber
 						   -ClusterSize 3
 
 . .\install-nginx.ps1 -NGinxVersion "1.10.1" `
-					  -NGinxDownloadUrl "http://nginx.org/download/nginx-1.10.1.zip" `
-					  -nssmDownloadUrl "https://nssm.cc/release/nssm-2.24.zip"
+					  -NGinxDownloadUrl "http://nginx.org/download/nginx-1.10.1.zip"
 
 Stop-Transcript

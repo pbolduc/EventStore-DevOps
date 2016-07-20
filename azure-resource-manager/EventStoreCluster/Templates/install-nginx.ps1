@@ -5,9 +5,7 @@ param (
 	[string]
 	$NGinxVersion,
 	[string]
-	$nginxZip,
-	[string]
-	$nssmDownloadUrl
+	$nginxZip
 )
 
 function Extract-ZipFile($file, $destination) {
@@ -39,10 +37,6 @@ Start-Transcript -path C:\ps-output-nginx.txt -append -noClobber
 
 $downloadDirectory = 'D:\download'
 New-Item $downloadDirectory -ItemType Directory | Out-Null
-
-$nssmZip = Download-FileTo -DownloadUrl $nssmDownloadUrl -Path $downloadDirectory
-# NSSM is packed with in a folder already
-Extract-ZipFile -File $nssmZip -Destination F:\
 
 $nginxZip = Download-FileTo -DownloadUrl $nginxZip -Path $downloadDirectory
 Extract-ZipFile -File $nginxZip -Destination F:\nginx\bin\
