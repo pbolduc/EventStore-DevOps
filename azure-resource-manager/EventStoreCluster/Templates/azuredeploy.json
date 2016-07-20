@@ -169,7 +169,8 @@
     "windowsScripts": [
       "[concat(variables('templateBaseUrl'), 'master.ps1')]",
       "[concat(variables('templateBaseUrl'), 'create-data-disks.ps1')]",
-      "[concat(variables('templateBaseUrl'), 'install-eventstore.ps1')]"
+      "[concat(variables('templateBaseUrl'), 'install-eventstore.ps1')]",
+      "[concat(variables('templateBaseUrl'), 'install-nginx.ps1')]"
     ],
     "windowsSettings": {
       "imageReference": {
