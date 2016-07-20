@@ -117,4 +117,7 @@ Add-Content F:\eventstore\install-service.cmd "F:\nssm-2.24\win64\nssm.exe set E
 Add-Content F:\eventstore\start-service.cmd "net start EventStore"
 Add-Content F:\eventstore\stop-service.cmd "net stop EventStore"
 
+. F:\eventstore\install-service.cmd
+. F:\eventstore\start-service.cmd
+
 Stop-Transcript

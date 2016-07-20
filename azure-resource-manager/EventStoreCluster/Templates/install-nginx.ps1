@@ -59,4 +59,7 @@ Add-Content F:\nginx\install-service.cmd "F:\nssm-2.24\win64\nssm.exe set Nginx 
 Add-Content F:\nginx\start-service.cmd "net start Nginx"
 Add-Content F:\nginx\stop-service.cmd "net stop Nginx"
 
+. F:\nginx\install-service.cmd
+. F:\nginx\start-service.cmd
+
 Stop-Transcript
