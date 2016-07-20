@@ -5,7 +5,7 @@ param (
 	[string]
 	$NGinxVersion,
 	[string]
-	$nginxZip
+	$NGinxDownloadUrl
 )
 
 function Extract-ZipFile($file, $destination) {
@@ -35,10 +35,10 @@ Stop-Transcript | out-null
 $ErrorActionPreference = "Continue"
 Start-Transcript -path C:\ps-output-nginx.txt -append -noClobber
 
-#$downloadDirectory = 'D:\download'
+$downloadDirectory = 'D:\download'
 #New-Item $downloadDirectory -ItemType Directory | Out-Null
 
-$nginxZip = Download-FileTo -DownloadUrl $nginxZip -Path $downloadDirectory
+$nginxZip = Download-FileTo -DownloadUrl $NGinxDownloadUrl -Path $downloadDirectory
 Extract-ZipFile -File $nginxZip -Destination F:\nginx\bin\
 
 #
