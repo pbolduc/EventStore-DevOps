@@ -81,6 +81,13 @@ $ipAddress = (Resolve-DnsName $env:COMPUTERNAME -Type A).IPAddress
 # Manager Node External HTTP Interface (commercial only)
 #netsh http add urlacl url=http://$ipAddress:30778/ user="NT AUTHORITY\LOCAL SERVICE"
 
+New-NetFirewallRule -Name Allow_80_In `
+					-DisplayName "Allow inbound port 80 traffic" `
+					-Protocol TCP `
+					-Direction Inbound `
+					-Action Allow `
+					-LocalPort 80
+
 New-NetFirewallRule -Name Allow_EventStore_Int_In `
 					-DisplayName "Allow inbound Internal Event Store traffic" `
 					-Protocol TCP `
