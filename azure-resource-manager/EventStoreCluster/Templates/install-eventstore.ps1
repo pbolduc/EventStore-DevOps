@@ -104,7 +104,7 @@ New-NetFirewallRule -Name Allow_EventStore_Ext_In `
 Add-Content F:\eventstore\config.yaml "# default Event Store configuration file`n"
 Add-Content F:\eventstore\config.yaml "Db:               F:\eventstore\data`n"
 Add-Content F:\eventstore\config.yaml "Log:              D:\eventstore\logs`n"
-#Add-Content F:\eventstore\config.yaml "IntIp:            $ipAddress`n"
+Add-Content F:\eventstore\config.yaml "IntIp:            $ipAddress`n"
 #Add-Content F:\eventstore\config.yaml "ExtIp:            $ipAddress`n"
 # Add-Content F:\eventstore\config.yaml "ExtIpAdvertiseAs: $ExtIpAdvertiseAs`n"
 Add-Content F:\eventstore\config.yaml "ClusterSize:      $ClusterSize`n"
