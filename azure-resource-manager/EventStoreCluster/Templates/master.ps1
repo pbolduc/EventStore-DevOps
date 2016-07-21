@@ -16,6 +16,6 @@ Start-Transcript -path C:\ps-output-master.txt -append -noClobber
 						   -ClusterSize 3
 
 . .\install-nginx.ps1 -NGinxVersion "1.10.1" `
-					  -NGinxDownloadUrl "http://nginx.org/download/nginx-1.10.1.zip"
+					  -NGinxDownloadUrl "https://landdb.blob.core.windows.net/eventstore-cluster-resources/nginx-1.10.1.zip"
 
 Stop-Transcript
