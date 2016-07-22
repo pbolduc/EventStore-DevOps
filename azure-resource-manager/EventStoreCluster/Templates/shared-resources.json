@@ -108,7 +108,7 @@
             "properties": {
               "addressPrefix": "[parameters('networkSettings').subnet[parameters('subnet')].prefix]",
               "networkSecurityGroup": {
-                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', [parameters('networkSettings').networkSecurityGroupName])]"
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSettings').networkSecurityGroupName)]"
               }
             }
           }
