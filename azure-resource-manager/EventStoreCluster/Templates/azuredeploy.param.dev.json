@@ -6,7 +6,7 @@
       "value": "EventStoreAdmin"
     },
     "adminPassword": {
-      "value":  "RandomMonkeySurfsOnLava!"
+      "value":  "YourEventStoreVMPassword"
     },
     "jumpbox":  {
       "value": "No"
