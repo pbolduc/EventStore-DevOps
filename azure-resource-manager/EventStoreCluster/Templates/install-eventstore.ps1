@@ -23,8 +23,9 @@ param (
     [Int]
     $IntHttpPort = 2112,
     [Int]
-    $ExtHttpPort = 2113
-
+    $ExtHttpPort = 2113,
+	[string]
+	$downloadDirectory
 )
 
 function Extract-ZipFile($file, $destination) {
@@ -54,9 +55,6 @@ Stop-Transcript | out-null
 $ErrorActionPreference = "Continue"
 Start-Transcript -path C:\ps-output-es.txt -append -noClobber
 
-$downloadDirectory = 'D:\download'
-New-Item $downloadDirectory -ItemType Directory | Out-Null
-
 $nssmZip = Download-FileTo -DownloadUrl $nssmDownloadUrl -Path $downloadDirectory
 # NSSM is packed with in a folder already
 Extract-ZipFile -File $nssmZip -Destination F:\
@@ -80,13 +78,6 @@ $ipAddress = (Resolve-DnsName $env:COMPUTERNAME -Type A).IPAddress
 
 # Manager Node External HTTP Interface (commercial only)
 #netsh http add urlacl url=http://$ipAddress:30778/ user="NT AUTHORITY\LOCAL SERVICE"
-
-New-NetFirewallRule -Name Allow_80_In `
-					-DisplayName "Allow inbound port 80 traffic" `
-					-Protocol TCP `
-					-Direction Inbound `
-					-Action Allow `
-					-LocalPort 80
 
 New-NetFirewallRule -Name Allow_EventStore_Int_In `
 					-DisplayName "Allow inbound Internal Event Store traffic" `
@@ -112,7 +103,8 @@ Add-Content F:\eventstore\config.yaml "# default Event Store configuration file`
 Add-Content F:\eventstore\config.yaml "Db:               F:\eventstore\data`n"
 Add-Content F:\eventstore\config.yaml "Log:              D:\eventstore\logs`n"
 Add-Content F:\eventstore\config.yaml "IntIp:            $ipAddress`n"
-#Add-Content F:\eventstore\config.yaml "ExtIp:            $ipAddress`n"
+# Don't need these, locking down the ES behind NGinx
+# Add-Content F:\eventstore\config.yaml "ExtIp:            $ipAddress`n"
 # Add-Content F:\eventstore\config.yaml "ExtIpAdvertiseAs: $ExtIpAdvertiseAs`n"
 Add-Content F:\eventstore\config.yaml "ClusterSize:      $ClusterSize`n"
 Add-Content F:\eventstore\config.yaml "DiscoverViaDns:   false`n"

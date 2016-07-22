@@ -345,7 +345,7 @@
       "resources": [
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(parameters('namespace'),'-vm-', copyIndex(), '/createdatadisk')]",
+          "name": "[concat(parameters('namespace'),'-vm-', copyIndex(), '/installapplications')]",
           "location": "[parameters('location')]",
           "apiVersion": "2015-06-15",
           "dependsOn": [
