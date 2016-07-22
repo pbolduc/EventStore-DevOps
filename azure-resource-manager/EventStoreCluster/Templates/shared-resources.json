@@ -93,6 +93,9 @@
     },
     {
       "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkSecurityGroups/', parameters('networkSettings').networkSecurityGroupName)]"
+      ],
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[parameters('networkSettings').virtualNetworkName]",
       "location": "[parameters('location')]",
@@ -106,11 +109,10 @@
           {
             "name": "[parameters('networkSettings').subnet[parameters('subnet')].name]",
             "properties": {
-              "addressPrefix": "[parameters('networkSettings').subnet[parameters('subnet')].prefix]"
-              //,
-              //"networkSecurityGroup": {
-              //  "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSettings').networkSecurityGroupName)]"
-              //}
+              "addressPrefix": "[parameters('networkSettings').subnet[parameters('subnet')].prefix]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSettings').networkSecurityGroupName)]"
+              }
             }
           }
         ]
