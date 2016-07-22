@@ -130,7 +130,8 @@
               "privateIPAllocationMethod": "Static",
               "subnet": {
                 "id": "[variables('subnetRef')]"
-              }
+              },
+              "publicIPAddress": { "id": "[concat('Microsoft.Network/publicIPAddresses/', parameters('namespace'), '-pip-', copyIndex())]"}
             }
           }
         ]
