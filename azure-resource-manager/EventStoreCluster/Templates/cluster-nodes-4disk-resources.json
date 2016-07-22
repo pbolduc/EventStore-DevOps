@@ -131,7 +131,9 @@
               "subnet": {
                 "id": "[variables('subnetRef')]"
               },
-              "publicIPAddress": { "id": "[concat('Microsoft.Network/publicIPAddresses/', parameters('namespace'), '-pip-', copyIndex())]"}
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namespace'), '-pip-', copyIndex()))]"
+              }
             }
           }
         ]
