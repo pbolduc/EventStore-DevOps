@@ -106,10 +106,11 @@
           {
             "name": "[parameters('networkSettings').subnet[parameters('subnet')].name]",
             "properties": {
-              "addressPrefix": "[parameters('networkSettings').subnet[parameters('subnet')].prefix]",
-              "networkSecurityGroup": {
-                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSettings').networkSecurityGroupName)]"
-              }
+              "addressPrefix": "[parameters('networkSettings').subnet[parameters('subnet')].prefix]"
+              //,
+              //"networkSecurityGroup": {
+              //  "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSettings').networkSecurityGroupName)]"
+              //}
             }
           }
         ]
