@@ -23,8 +23,9 @@ param (
     [Int]
     $IntHttpPort = 2112,
     [Int]
-    $ExtHttpPort = 2113
-
+    $ExtHttpPort = 2113,
+	[string]
+	$downloadDirectory
 )
 
 function Extract-ZipFile($file, $destination) {
@@ -49,8 +50,10 @@ function Download-FileTo($DownloadUrl, $path) {
 	return $outFile
 }
 
-$downloadDirectory = 'D:\download'
-New-Item $downloadDirectory -ItemType Directory | Out-Null
+$ErrorActionPreference="SilentlyContinue"
+Stop-Transcript | out-null
+$ErrorActionPreference = "Continue"
+Start-Transcript -path C:\ps-output-es.txt -append -noClobber
 
 $nssmZip = Download-FileTo -DownloadUrl $nssmDownloadUrl -Path $downloadDirectory
 # NSSM is packed with in a folder already
@@ -100,8 +103,9 @@ Add-Content F:\eventstore\config.yaml "# default Event Store configuration file`
 Add-Content F:\eventstore\config.yaml "Db:               F:\eventstore\data`n"
 Add-Content F:\eventstore\config.yaml "Log:              D:\eventstore\logs`n"
 Add-Content F:\eventstore\config.yaml "IntIp:            $ipAddress`n"
-Add-Content F:\eventstore\config.yaml "ExtIp:            $ipAddress`n"
-Add-Content F:\eventstore\config.yaml "ExtIpAdvertiseAs: $ExtIpAdvertiseAs`n"
+# Don't need these, locking down the ES behind NGinx
+# Add-Content F:\eventstore\config.yaml "ExtIp:            $ipAddress`n"
+# Add-Content F:\eventstore\config.yaml "ExtIpAdvertiseAs: $ExtIpAdvertiseAs`n"
 Add-Content F:\eventstore\config.yaml "ClusterSize:      $ClusterSize`n"
 Add-Content F:\eventstore\config.yaml "DiscoverViaDns:   false`n"
 Add-Content F:\eventstore\config.yaml "GossipSeed:       10.0.1.4:$IntHttpPort,10.0.1.5:$IntHttpPort,10.0.1.6:$IntHttpPort`n"
@@ -112,3 +116,7 @@ Add-Content F:\eventstore\install-service.cmd "F:\nssm-2.24\win64\nssm.exe set E
 Add-Content F:\eventstore\start-service.cmd "net start EventStore"
 Add-Content F:\eventstore\stop-service.cmd "net stop EventStore"
 
+. F:\eventstore\install-service.cmd
+. F:\eventstore\start-service.cmd
+
+Stop-Transcript

@@ -38,6 +38,20 @@
       "properties": {
         "securityRules": [
           {
+            "name": "Allow-EventStore-Web-HTTP",
+            "properties": {
+              "description": "Allows inbound web traffic from anyone",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "VirtualNetwork",
+              "access": "Allow",
+              "priority": 100,
+              "direction": "Inbound"
+            }
+          },
+          {
             "name": "Allow-EventStore-TCP",
             "properties": {
               "description": "Allows inbound EventStore TCP traffic from anyone",
@@ -47,11 +61,11 @@
               "sourceAddressPrefix": "Internet",
               "destinationAddressPrefix": "VirtualNetwork",
               "access": "Allow",
-              "priority": 100,
+              "priority": 110,
               "direction": "Inbound"
             }
           },
-		      {
+          {
             "name": "Allow-EventStore-HTTP",
             "properties": {
               "description": "Allows inbound EventStore HTTP traffic from anyone",
@@ -61,7 +75,7 @@
               "sourceAddressPrefix": "Internet",
               "destinationAddressPrefix": "VirtualNetwork",
               "access": "Allow",
-              "priority": 200,
+              "priority": 120,
               "direction": "Inbound"
             }
           }
@@ -79,6 +93,9 @@
     },
     {
       "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkSecurityGroups/', parameters('networkSettings').networkSecurityGroupName)]"
+      ],
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[parameters('networkSettings').virtualNetworkName]",
       "location": "[parameters('location')]",
@@ -92,7 +109,10 @@
           {
             "name": "[parameters('networkSettings').subnet[parameters('subnet')].name]",
             "properties": {
-              "addressPrefix": "[parameters('networkSettings').subnet[parameters('subnet')].prefix]"
+              "addressPrefix": "[parameters('networkSettings').subnet[parameters('subnet')].prefix]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSettings').networkSecurityGroupName)]"
+              }
             }
           }
         ]

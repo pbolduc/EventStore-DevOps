@@ -132,7 +132,7 @@
     }
   },
   "variables": {
-    "templateBaseUrl": "https://raw.githubusercontent.com/pbolduc/EventStore-DevOps/master/azure-resource-manager/EventStoreCluster/Templates/",
+    "templateBaseUrl": "https://raw.githubusercontent.com/agconnections/EventStore-DevOps/master/azure-resource-manager/EventStoreCluster/Templates/",
     "locationMap": {
       "ResourceGroup": "[resourceGroup().location]",
       "West US": "[parameters('location')]",
@@ -167,8 +167,10 @@
     "jumpboxTemplateNo": "empty-resources.json",
     "jumpboxTemplateUrl": "[concat(variables('templateBaseUrl'), variables(concat('jumpboxTemplate',parameters('jumpbox'))))]",
     "windowsScripts": [
+      "[concat(variables('templateBaseUrl'), 'master.ps1')]",
       "[concat(variables('templateBaseUrl'), 'create-data-disks.ps1')]",
-      "[concat(variables('templateBaseUrl'), 'install-eventstore.ps1')]"
+      "[concat(variables('templateBaseUrl'), 'install-eventstore.ps1')]",
+      "[concat(variables('templateBaseUrl'), 'install-nginx.ps1')]"
     ],
     "windowsSettings": {
       "imageReference": {
@@ -185,7 +187,7 @@
           "typeHandlerVersion": "1.4",
           "settings": {
             "fileUris": "[variables('windowsScripts')]",
-            "commandToExecute": "powershell.exe -File create-data-disks.ps1"
+            "commandToExecute": "powershell.exe -File master.ps1"
           }
         }
       }

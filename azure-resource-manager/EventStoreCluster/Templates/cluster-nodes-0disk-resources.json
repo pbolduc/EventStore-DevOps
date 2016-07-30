@@ -75,7 +75,7 @@
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[concat(variables('storageAccountName'), copyindex(1))]",
+      "name": "[concat(variables('storageAccountName'), copyIndex(1))]",
       "apiVersion": "2015-05-01-preview",
       "location": "[parameters('location')]",
       "copy": {
@@ -99,7 +99,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(parameters('namespace'), 'nic', copyindex())]",
+      "name": "[concat(parameters('namespace'), 'nic', copyIndex())]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "[concat(parameters('namespace'),'nicLoop')]",
@@ -122,15 +122,15 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(parameters('namespace'), 'vm', copyindex())]",
+      "name": "[concat(parameters('namespace'), 'vm', copyIndex())]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "[concat(parameters('namespace'), 'virtualMachineLoop')]",
         "count": "[parameters('vmCount')]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'), 'nic', copyindex())]",
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'), parameters('storageSettings').mapping[copyindex()])]"
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'), 'nic', copyIndex())]",
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'), parameters('storageSettings').mapping[copyIndex()])]"
       ],
       "properties": {
         "availabilitySet": {
@@ -140,7 +140,7 @@
           "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computername": "[concat(parameters('namespace'), 'vm', copyIndex())]",
+          "computerName": "[concat(parameters('namespace'), 'vm', copyIndex())]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -149,7 +149,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://', variables('storageAccountName'), parameters('storageSettings').mapping[copyindex()], '.blob.core.windows.net/vhd/', variables('vmName'), copyindex(), '-osdisk.vhd')]"
+              "uri": "[concat('http://', variables('storageAccountName'), parameters('storageSettings').mapping[copyIndex()], '.blob.core.windows.net/vhd/', variables('vmName'), copyIndex(), '-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -158,7 +158,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namespace'),'nic', copyindex()))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namespace'),'nic', copyIndex()))]"
             }
           ]
         }
@@ -166,11 +166,11 @@
       "resources": [
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(parameters('namespace'),'vm', copyindex(), '/createdatadisk')]",
+          "name": "[concat(parameters('namespace'),'-vm-', copyIndex(), '/installapplications')]",
           "location": "[parameters('location')]",
           "apiVersion": "2015-06-15",
-          "dependsOn": [            
-            "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), 'vm', copyindex())]"
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), '-vm-', copyIndex())]"
           ],
           "properties": "[parameters('osSettings').extentionSettings.eventstore]"
         }

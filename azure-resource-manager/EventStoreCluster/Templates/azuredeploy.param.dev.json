@@ -6,13 +6,13 @@
       "value": "EventStoreAdmin"
     },
     "adminPassword": {
-      "value":  "VHkbZ7zNBch2"
+      "value":  "YourEventStoreVMPassword"
     },
     "jumpbox":  {
       "value": "No"
     },
     "vmEventStoreNodeCount":  {
-      "value": 1
+      "value": 3
     }
   }
 }
