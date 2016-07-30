@@ -5,8 +5,6 @@ param (
 	[string]
 	$EventStoreVersion,
 	[string]
-	$EventStoreDownloadUrl,
-	[string]
 	$nssmDownloadUrl,
     [string]
     $IntIp,
@@ -59,7 +57,8 @@ $nssmZip = Download-FileTo -DownloadUrl $nssmDownloadUrl -Path $downloadDirector
 # NSSM is packed with in a folder already
 Extract-ZipFile -File $nssmZip -Destination F:\
 
-$eventStoreZip = Download-FileTo -DownloadUrl $EventStoreDownloadUrl -Path $downloadDirectory
+$url = (Import-Csv -Header Version,Url -Path eventstore-windows-sources.csv | Where-Object { $_.Version -eq $esVer }).Url
+$eventStoreZip = Download-FileTo -DownloadUrl $url -Path $downloadDirectory
 Extract-ZipFile -File $eventStoreZip -Destination F:\eventstore\bin\
 
 #

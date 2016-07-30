@@ -210,9 +210,9 @@
       "[concat(variables('templateBaseUrl'), 'master.ps1')]",
       "[concat(variables('templateBaseUrl'), 'create-data-disks.ps1')]",
       "[concat(variables('templateBaseUrl'), 'install-eventstore.ps1')]",
+      "[concat(variables('templateBaseUrl'), 'eventstore-windows-sources.csv')]",
       "[concat(variables('templateBaseUrl'), 'install-nginx.ps1')]"
     ],
-    "esUrl": "[concat(variables('eventStoreDownloadMap')[parameters('OS')][parameters('esVersion')])]",
     "windowsSettings": {
       "imageReference": {
         "publisher": "MicrosoftWindowsServer",
@@ -225,10 +225,11 @@
         "eventstore": {
           "publisher": "Microsoft.Compute",
           "type": "CustomScriptExtension",
-          "typeHandlerVersion": "1.4",
+          "typeHandlerVersion": "1.7",
+          "autoUpgradeMinorVersion": true,
           "settings": {
             "fileUris": "[variables('windowsScripts')]",
-            "commandToExecute": "powershell.exe -File master.ps1 -ClusterSize [parametrs('vmEventStoreNodeCount')] -esVer \"[parameters('esVersion')]\" -esUrl \"[variables('esUrl')]\""
+            "commandToExecute": "powershell.exe -File master.ps1 -ClusterSize [parametrs('vmEventStoreNodeCount')] -esVer \"[parameters('esVersion')]\""
           }
         }
       }
@@ -361,52 +362,6 @@
       "prefix": "[concat(variables('storageAccountPrefix'), 'd', uniqueString(resourceGroup().id, deployment().name))]"
     },
     "clusterNodeTemplateUrl": "[concat(variables('templateBaseUrl'), 'cluster-nodes-', string(variables('virtualMachineSkuSettings')[parameters('vmSizeEventStoreNode')].dataDisks), 'disk-resources.json')]",
-    "eventStoreDownloadMap": {
-      "ubuntu": {
-        "3.8.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.8.1.tar.gz",
-        "3.8.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.8.0.tar.gz",
-        "3.7.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.7.0.tar.gz",
-        "3.6.3": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.6.3.tar.gz",
-        "3.6.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.6.2.tar.gz",
-        "3.6.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.6.1.tar.gz",
-        "3.6.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.6.0.tar.gz",
-        "3.5.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.5.0.tar.gz",
-        "3.4.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.4.0.tar.gz",
-        "3.3.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.3.1.tar.gz",
-        "3.3.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.3.0.tar.gz",
-        "3.2.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.2.2.tar.gz",
-        "3.2.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.2.1.tar.gz",
-        "3.2.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.2.0.tar.gz",
-        "3.1.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.1.0.tar.gz",
-        "3.0.5": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.5.tar.gz",
-        "3.0.3": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.3.tar.gz",
-        "3.0.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.2.tar.gz",
-        "3.0.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.1.tar.gz",
-        "3.0.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.0.tar.gz"
-      },
-      "windows": {
-        "3.8.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.8.1.zip",
-        "3.8.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.8.0.zip",
-        "3.7.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.7.0.zip",
-        "3.6.3": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.6.3.zip",
-        "3.6.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.6.2.zip",
-        "3.6.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.6.1.zip",
-        "3.6.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.6.0.zip",
-        "3.5.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.5.0.zip",
-        "3.4.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.4.0.zip",
-        "3.3.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.3.1.zip",
-        "3.3.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.3.0.zip",
-        "3.2.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.2.2.zip",
-        "3.2.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.2.1.zip",
-        "3.2.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.2.0.zip",
-        "3.1.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.1.0.zip",
-        "3.0.5": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.5.zip",
-        "3.0.3": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.3.zip",
-        "3.0.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.2.zip",
-        "3.0.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.1.zip",
-        "3.0.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.0.zip"
-      }
-    }
   },
   "resources": [
     {

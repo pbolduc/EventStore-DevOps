@@ -4,7 +4,6 @@
 param(
 	[Int32]$ClusterSize,
 	[string]$esVer,
-	[string]$esUrl,
 	[string]$nginxVer="1.10.1",
 	[string]$nginxUrl="https://landdb.blob.core.windows.net/eventstore-cluster-resources/nginx-1.10.1.zip"
 )
@@ -21,7 +20,6 @@ New-Item $downloadDirectory -ItemType Directory | Out-Null
 
 # TODO: These parameters should come from the template!
 . .\install-eventstore.ps1 -EventStoreVersion $esVer `
-						   -EventStoreDownloadUrl $esUrl `
 						   -nssmDownloadUrl "https://nssm.cc/release/nssm-2.24.zip" `
 						   -ClusterSize $ClusterSize `
 						   -downloadDirectory $downloadDirectory
