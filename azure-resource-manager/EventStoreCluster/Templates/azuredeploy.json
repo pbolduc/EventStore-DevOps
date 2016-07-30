@@ -59,7 +59,6 @@
         "description": "The operating system to deploy Event Store cluster on"
       }
     },
-
     "jumpbox": {
       "type": "string",
       "defaultValue": "No",
@@ -71,7 +70,6 @@
         "description": "Optionally add a virtual machine to the deployment which you can use to connect and manage virtual machines on the internal network"
       }
     },
-
     "vmEventStoreNodeCount": {
       "type": "int",
       "defaultValue": 1,
@@ -86,7 +84,6 @@
         "description": "Number of Event Store client nodes to provision"
       }
     },
-
     "vmSizeEventStoreNode": {
       "type": "string",
       "defaultValue": "Standard_D2",
@@ -144,29 +141,57 @@
       "metadata": {
         "description": "Event Store version to install"
       }
+    },
+    "githubAccount": {
+      "type": "string",
+      "defaultValue": "pbolduc",
+      "metadata": {
+        "description": "The GitHub account to use down load the resource manager template assets (ie scripts to download, install and configure the VMs). You will only need to change this if you have your own copy or working of a separate branch."
+      }
+    },
+    "githubProject": {
+      "type": "string",
+      "defaultValue": "EventStore-DevOps",
+      "metadata": {
+        "description": "The GitHub project to down load the resource manager templates assets (ie scripts to download, install and configure the VMs). You will only need to change this if you have your own copy or working of a separate branch."
+      }
+    },
+    "githubBranch": {
+      "type": "string",
+      "defaultValue": "master",
+      "metadata": {
+        "description": "The GitHub branch to use down load the resource manager templates assets (ie scripts to download, install and configure the VMs). You will only need to change this if you have your own copy or working of a separate branch."
+      }
     }
   },
   "variables": {
-    "templateBaseUrl": "https://raw.githubusercontent.com/agconnections/EventStore-DevOps/master/azure-resource-manager/EventStoreCluster/Templates/",
+    "templateBaseUrl": "https://raw.githubusercontent.com/[parameters('githubAccount')]/[parameters('githubProject')]/[parameters('githubBranch')]/azure-resource-manager/EventStoreCluster/Templates/",
     "locationMap": {
       "ResourceGroup": "[resourceGroup().location]",
-      "West US": "[parameters('location')]",
+      "Brazil South": "[parameters('location')]",
+      "Canada Central": "[parameters('location')]",
+      "Canada East": "[parameters('location')]",
+      "Central US": "[parameters('location')]",
+      "East Asia": "[parameters('location')]",
       "East US": "[parameters('location')]",
       "East US 2": "[parameters('location')]",
-      "Central US": "[parameters('location')]",
-      "South Central US": "[parameters('location')]",
+      "Japan East": "[parameters('location')]",
+      "Japan West": "[parameters('location')]",
       "North Central US": "[parameters('location')]",
-      "East Asia": "[parameters('location')]",
+      "North Europe": "[parameters('location')]",
+      "South Central US": "[parameters('location')]",
       "Southeast Asia": "[parameters('location')]",
+      "West Central US": "[parameters('location')]",
       "West Europe": "[parameters('location')]",
-      "North Europe": "[parameters('location')]"
+      "West US": "[parameters('location')]",
+      "West US 2": "[parameters('location')]"
     },
     "location": "[variables('locationMap')[parameters('location')]]",
     "storageAccountPrefix": "esdata",
     "storageAccountNameShared": "[concat(variables('storageAccountPrefix'), 's', uniqueString(resourceGroup().id, deployment().name))]",
     "networkSettings": {
       "virtualNetworkName": "[parameters('virtualNetworkName')]",
-	  "networkSecurityGroupName": "[concat(parameters('virtualNetworkName'), '-nsg')]",
+      "networkSecurityGroupName": "[concat(parameters('virtualNetworkName'), '-nsg')]",
       "addressPrefix": "10.0.0.0/16",
       "subnet": {
         "eventstore": {
