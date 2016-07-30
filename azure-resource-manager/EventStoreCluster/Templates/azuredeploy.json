@@ -165,7 +165,7 @@
     }
   },
   "variables": {
-    "templateBaseUrl": "[concat('https://raw.githubusercontent.com/',[parameters('githubAccount')],'/',[parameters('githubProject')],'/',[parameters('githubBranch')],'/azure-resource-manager/EventStoreCluster/Templates/')]",
+    "templateBaseUrl": "[concat('https://raw.githubusercontent.com/',parameters('githubAccount'),'/',parameters('githubProject'),'/',parameters('githubBranch'),'/azure-resource-manager/EventStoreCluster/Templates/')]",
     "locationMap": {
       "ResourceGroup": "[resourceGroup().location]",
       "Brazil South": "[parameters('location')]",
