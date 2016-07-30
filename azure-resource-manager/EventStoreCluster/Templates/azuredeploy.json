@@ -212,7 +212,7 @@
       "[concat(variables('templateBaseUrl'), 'install-eventstore.ps1')]",
       "[concat(variables('templateBaseUrl'), 'install-nginx.ps1')]"
     ],
-    "esUrl": "[concat(variables('eventStoreDownloadMap').windows[parameters('esVersion')])]",
+    "esUrl": "[concat(variables('eventStoreDownloadMap')[parameters('OS')][parameters('esVersion')])]",
     "windowsSettings": {
       "imageReference": {
         "publisher": "MicrosoftWindowsServer",
@@ -228,7 +228,7 @@
           "typeHandlerVersion": "1.4",
           "settings": {
             "fileUris": "[variables('windowsScripts')]",
-            "commandToExecute": "powershell.exe -File master.ps1 -ClusterSize [parametrs('vmEventStoreNodeCount')] -esVer \"[parameters('esVersion')]\" -esUrl \"[variables('esUrl')]"
+            "commandToExecute": "powershell.exe -File master.ps1 -ClusterSize [parametrs('vmEventStoreNodeCount')] -esVer \"[parameters('esVersion')]\" -esUrl \"[variables('esUrl')]\""
           }
         }
       }
