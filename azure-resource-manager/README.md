@@ -17,7 +17,7 @@ jumpbox | No | Optionally add a virtual machine to the deployment which you can 
 vmEventStoreNodeCount | 1 | Number of Event Store nodes to provision
 vmSizeEventStoreNode | Standard_D2 | The VM size to deploy
 vmEventStoreDataDiskSize | 4 | Size of each data disk attached to data nodes in (Gb). Each VM size will be provisioned with the maximum number of data disks to maximize the IOPS. In Windows, you can only pool disks that have at least 4GB of contiguous unallocated space.
-esVersion | 3.3.0 | The Event Store version to install (*install is not complete*)
+esVersion | 3.8.1 | The Event Store version to install
 
 
 * a Storage Account for OS Disks
@@ -26,6 +26,3 @@ esVersion | 3.3.0 | The Event Store version to install (*install is not complete
 * a Public IP address for each node
 * a NIC for each node
 * a VM for each node (A2)
-
-TODO:
-* add custom script extensions to provision and configure Event Store
