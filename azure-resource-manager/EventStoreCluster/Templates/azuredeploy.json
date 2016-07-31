@@ -229,7 +229,7 @@
           "autoUpgradeMinorVersion": true,
           "settings": {
             "fileUris": "[variables('windowsScripts')]",
-            "commandToExecute": "powershell.exe -File master.ps1 -ClusterSize [parameters('vmEventStoreNodeCount')] -esVer [parameters('esVersion')]"
+            "commandToExecute": "[concat('powershell.exe -File master.ps1 -ClusterSize ',parameters('vmEventStoreNodeCount'),' -esVer ',parameters('esVersion'))]"
           }
         }
       }
