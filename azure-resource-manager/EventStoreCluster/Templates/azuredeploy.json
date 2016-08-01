@@ -80,6 +80,13 @@
       }
     },
 
+    "templateBaseUrl": {
+      "type": "string",
+      "metadata": {
+        "description": "Allows the user to specify the location of their own template."
+      }
+    },
+
     "vmSizeEventStoreNode": {
       "type": "string",
       "defaultValue": "Standard_DS3_v2",
