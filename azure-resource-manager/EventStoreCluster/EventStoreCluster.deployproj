@@ -49,6 +49,7 @@
     <None Include="Templates\install-eventstore.ps1" />
     <None Include="Templates\install-nginx.ps1" />
     <None Include="Templates\master.ps1" />
+    <None Include="Templates\nginx.conf" />
     <None Include="Tools\AzCopy.exe" />
     <None Include="Tools\Microsoft.Data.Edm.dll">
       <Visible>False</Visible>

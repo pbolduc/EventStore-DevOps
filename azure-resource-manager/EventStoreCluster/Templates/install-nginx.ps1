@@ -47,6 +47,8 @@ New-NetFirewallRule -Name Allow_80_In `
 					-Action Allow `
 					-LocalPort 80
 
+Copy-Item '..\Templates\nginx.conf' 'F:\nginx\bin\nginx-1.10.1\conf\nginx.conf' -Force
+
 Add-Content F:\nginx\install-service.cmd "F:\nssm-2.24\win64\nssm.exe install Nginx F:\nginx\bin\nginx-1.10.1\nginx.exe"
 Add-Content F:\nginx\install-service.cmd "F:\nssm-2.24\win64\nssm.exe set Nginx Description ""The Nginx service"""
 

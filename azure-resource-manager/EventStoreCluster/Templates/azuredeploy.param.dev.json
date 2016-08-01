@@ -11,8 +11,11 @@
     "jumpbox":  {
       "value": "No"
     },
-    "vmEventStoreNodeCount":  {
+    "vmEventStoreNodeCount": {
       "value": 3
+    },
+    "templateBaseUrl": {
+      "value": "https://raw.githubusercontent.com/agconnections/EventStore-DevOps/master/azure-resource-manager/EventStoreCluster/Templates/"
     }
   }
 }

@@ -82,7 +82,7 @@
 
     "vmSizeEventStoreNode": {
       "type": "string",
-      "defaultValue": "Standard_D2",
+      "defaultValue": "Standard_DS3_v2",
       "allowedValues": [
         "Standard_D1",
         "Standard_D2",
@@ -94,7 +94,7 @@
         "Standard_A7",
         "Standard_DS1",
         "Standard_DS2",
-        "Standard_DS3",
+        "Standard_DS3_v2",
         "Standard_DS4",
         "Standard_DS13"
       ],
@@ -132,7 +132,7 @@
     }
   },
   "variables": {
-    "templateBaseUrl": "https://raw.githubusercontent.com/agconnections/EventStore-DevOps/master/azure-resource-manager/EventStoreCluster/Templates/",
+    "templateBaseUrl": "[parameters('templateBaseUrl')]",
     "locationMap": {
       "ResourceGroup": "[resourceGroup().location]",
       "West US": "[parameters('location')]",
