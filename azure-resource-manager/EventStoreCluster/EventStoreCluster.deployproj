@@ -46,6 +46,8 @@
     <Content Include="Templates\jumpbox-resources.json" />
     <Content Include="Templates\shared-resources.json" />
     <None Include="Templates\empty-resources.json" />
+    <None Include="Templates\eventstore-ubuntu-sources.txt" />
+    <None Include="Templates\eventstore-windows-sources.csv" />
     <None Include="Templates\install-eventstore.ps1" />
     <None Include="Templates\install-nginx.ps1" />
     <None Include="Templates\master.ps1" />
