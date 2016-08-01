@@ -6,7 +6,7 @@
       "value": "EventStoreAdmin"
     },
     "adminPassword": {
-      "value":  "YourEventStoreVMPassword"
+      "value":  "YourEventStoreVMPassword!123"
     },
     "jumpbox":  {
       "value": "No"
