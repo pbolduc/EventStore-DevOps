@@ -18,16 +18,23 @@
       "type": "string",
       "allowedValues": [
         "ResourceGroup",
-        "West US",
+        "Brazil South",
+        "Canada Central",
+        "Canada East",
+        "Central US",
+        "East Asia",
         "East US",
         "East US 2",
-        "Central US",
-        "South Central US",
+        "Japan East",
+        "Japan West",
         "North Central US",
-        "East Asia",
+        "North Europe",
+        "South Central US",
         "Southeast Asia",
+        "West Central US",
         "West Europe",
-        "North Europe"
+        "West US",
+        "West US 2"
       ],
       "defaultValue": "ResourceGroup",
       "metadata": {
@@ -52,7 +59,6 @@
         "description": "The operating system to deploy Event Store cluster on"
       }
     },
-
     "jumpbox": {
       "type": "string",
       "defaultValue": "No",
@@ -64,7 +70,6 @@
         "description": "Optionally add a virtual machine to the deployment which you can use to connect and manage virtual machines on the internal network"
       }
     },
-
     "vmEventStoreNodeCount": {
       "type": "int",
       "defaultValue": 1,
@@ -79,14 +84,6 @@
         "description": "Number of Event Store client nodes to provision"
       }
     },
-
-    "templateBaseUrl": {
-      "type": "string",
-      "metadata": {
-        "description": "Allows the user to specify the location of their own template."
-      }
-    },
-
     "vmSizeEventStoreNode": {
       "type": "string",
       "defaultValue": "Standard_DS3_v2",
@@ -119,8 +116,16 @@
     },
     "esVersion": {
       "type": "string",
-      "defaultValue": "3.4.0",
+      "defaultValue": "3.8.1",
       "allowedValues": [
+        "3.8.1",
+        "3.8.0",
+        "3.7.0",
+        "3.6.3",
+        "3.6.2",
+        "3.6.1",
+        "3.6.0",
+        "3.5.0",
         "3.4.0",
         "3.3.1",
         "3.3.0",
@@ -137,29 +142,57 @@
       "metadata": {
         "description": "Event Store version to install"
       }
+    },
+    "githubAccount": {
+      "type": "string",
+      "defaultValue": "pbolduc",
+      "metadata": {
+        "description": "The GitHub account to use down load the resource manager template assets (ie scripts to download, install and configure the VMs). You will only need to change this if you have your own copy or working of a separate branch."
+      }
+    },
+    "githubProject": {
+      "type": "string",
+      "defaultValue": "EventStore-DevOps",
+      "metadata": {
+        "description": "The GitHub project to down load the resource manager templates assets (ie scripts to download, install and configure the VMs). You will only need to change this if you have your own copy or working of a separate branch."
+      }
+    },
+    "githubBranch": {
+      "type": "string",
+      "defaultValue": "master",
+      "metadata": {
+        "description": "The GitHub branch to use down load the resource manager templates assets (ie scripts to download, install and configure the VMs). You will only need to change this if you have your own copy or working of a separate branch."
+      }
     }
   },
   "variables": {
-    "templateBaseUrl": "[parameters('templateBaseUrl')]",
+    "templateBaseUrl": "[concat('https://raw.githubusercontent.com/',parameters('githubAccount'),'/',parameters('githubProject'),'/',parameters('githubBranch'),'/azure-resource-manager/EventStoreCluster/Templates/')]",
     "locationMap": {
       "ResourceGroup": "[resourceGroup().location]",
-      "West US": "[parameters('location')]",
+      "Brazil South": "[parameters('location')]",
+      "Canada Central": "[parameters('location')]",
+      "Canada East": "[parameters('location')]",
+      "Central US": "[parameters('location')]",
+      "East Asia": "[parameters('location')]",
       "East US": "[parameters('location')]",
       "East US 2": "[parameters('location')]",
-      "Central US": "[parameters('location')]",
-      "South Central US": "[parameters('location')]",
+      "Japan East": "[parameters('location')]",
+      "Japan West": "[parameters('location')]",
       "North Central US": "[parameters('location')]",
-      "East Asia": "[parameters('location')]",
+      "North Europe": "[parameters('location')]",
+      "South Central US": "[parameters('location')]",
       "Southeast Asia": "[parameters('location')]",
+      "West Central US": "[parameters('location')]",
       "West Europe": "[parameters('location')]",
-      "North Europe": "[parameters('location')]"
+      "West US": "[parameters('location')]",
+      "West US 2": "[parameters('location')]"
     },
     "location": "[variables('locationMap')[parameters('location')]]",
     "storageAccountPrefix": "esdata",
     "storageAccountNameShared": "[concat(variables('storageAccountPrefix'), 's', uniqueString(resourceGroup().id, deployment().name))]",
     "networkSettings": {
       "virtualNetworkName": "[parameters('virtualNetworkName')]",
-	  "networkSecurityGroupName": "[concat(parameters('virtualNetworkName'), '-nsg')]",
+      "networkSecurityGroupName": "[concat(parameters('virtualNetworkName'), '-nsg')]",
       "addressPrefix": "10.0.0.0/16",
       "subnet": {
         "eventstore": {
@@ -179,6 +212,7 @@
       "[concat(variables('templateBaseUrl'), 'create-data-disks.ps1')]",
       "[concat(variables('templateBaseUrl'), 'install-eventstore.ps1')]",
       "[concat(variables('templateBaseUrl'), 'install-nginx.ps1')]",
+      "[concat(variables('templateBaseUrl'), 'eventstore-windows-sources.csv')]",
       "[concat(variables('templateBaseUrl'), 'nginx.conf')]"
     ],
     "windowsSettings": {
@@ -193,10 +227,11 @@
         "eventstore": {
           "publisher": "Microsoft.Compute",
           "type": "CustomScriptExtension",
-          "typeHandlerVersion": "1.4",
+          "typeHandlerVersion": "1.8",
+          "autoUpgradeMinorVersion": true,
           "settings": {
             "fileUris": "[variables('windowsScripts')]",
-            "commandToExecute": "powershell.exe -File master.ps1"
+            "commandToExecute": "[concat('powershell.exe -File master.ps1 -ClusterSize ',parameters('vmEventStoreNodeCount'),' -esVer ',parameters('esVersion'))]"
           }
         }
       }
@@ -334,36 +369,6 @@
       "prefix": "[concat(variables('storageAccountPrefix'), 'd', uniqueString(resourceGroup().id, deployment().name))]"
     },
     "clusterNodeTemplateUrl": "[concat(variables('templateBaseUrl'), 'cluster-nodes-', string(variables('virtualMachineSkuSettings')[parameters('vmSizeEventStoreNode')].dataDisks), 'disk-resources.json')]",
-    "eventStoreDownloadMap": {
-      "ubuntu": {
-        "3.0.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.0.tar.gz",
-        "3.0.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.1.tar.gz",
-        "3.0.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.2.tar.gz",
-        "3.0.3": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.3.tar.gz",
-        "3.0.5": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.5.tar.gz",
-        "3.1.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.1.0.tar.gz",
-        "3.2.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.2.0.tar.gz",
-        "3.2.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.2.1.tar.gz",
-        "3.2.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.2.2.tar.gz",
-        "3.3.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.3.0.tar.gz",
-        "3.3.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.3.1.tar.gz",
-        "3.4.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.4.0.tar.gz"
-      },
-      "windows": {
-        "3.0.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.0.zip",
-        "3.0.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.1.zip",
-        "3.0.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.2.zip",
-        "3.0.3": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.3.zip",
-        "3.0.5": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.5.zip",
-        "3.1.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.1.0.zip",
-        "3.2.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.2.0.zip",
-        "3.2.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.2.1.zip",
-        "3.2.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.2.2.zip",
-        "3.3.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.3.0.zip",
-        "3.3.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.3.1.zip",
-        "3.4.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.4.0.zip"
-      }
-    }
   },
   "resources": [
     {
