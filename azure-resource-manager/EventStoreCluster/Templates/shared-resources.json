@@ -61,7 +61,7 @@
               "sourceAddressPrefix": "Internet",
               "destinationAddressPrefix": "VirtualNetwork",
               "access": "Allow",
-              "priority": 100,
+              "priority": 110,
               "direction": "Inbound"
             }
           },
@@ -75,7 +75,7 @@
               "sourceAddressPrefix": "Internet",
               "destinationAddressPrefix": "VirtualNetwork",
               "access": "Allow",
-              "priority": 110,
+              "priority": 120,
               "direction": "Inbound"
             }
           },
@@ -89,7 +89,21 @@
               "sourceAddressPrefix": "Internet",
               "destinationAddressPrefix": "VirtualNetwork",
               "access": "Allow",
-              "priority": 120,
+              "priority": 130,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "Allow-RDP-HTTP",
+            "properties": {
+              "description": "Allows inbound RDP HTTP traffic from anyone",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "3389",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "VirtualNetwork",
+              "access": "Allow",
+              "priority": 140,
               "direction": "Inbound"
             }
           }
