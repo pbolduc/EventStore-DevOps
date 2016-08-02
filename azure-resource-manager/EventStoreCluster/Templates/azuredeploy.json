@@ -231,7 +231,9 @@
       "[concat(variables('templateBaseUrl'), 'install-eventstore.ps1')]",
       "[concat(variables('templateBaseUrl'), 'install-nginx.ps1')]",
       "[concat(variables('templateBaseUrl'), 'eventstore-windows-sources.csv')]",
-      "[concat(variables('templateBaseUrl'), 'nginx.conf')]"
+      "[concat(variables('templateBaseUrl'), 'nginx.conf')]",
+      "[concat(variables('templateBaseUrl'), 'cacert.pem')]",
+      "[concat(variables('templateBaseUrl'), 'privkey.pem')]"
     ],
     "windowsSettings": {
       "imageReference": {

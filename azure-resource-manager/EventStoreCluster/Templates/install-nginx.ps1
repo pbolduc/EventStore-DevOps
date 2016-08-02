@@ -48,6 +48,8 @@ New-NetFirewallRule -Name Allow_80_In `
 					-LocalPort 80
 
 Copy-Item '.\nginx.conf' 'F:\nginx\bin\nginx-1.10.1\conf\nginx.conf' -Force
+Copy-Item '.\cacert.pem' 'F:\nginx\bin\nginx-1.10.1\conf\cacert.pem' -Force
+Copy-Item '.\privkey.pem' 'F:\nginx\bin\nginx-1.10.1\conf\privkey.pem' -Force
 
 Add-Content F:\nginx\install-service.cmd "F:\nssm-2.24\win64\nssm.exe install Nginx F:\nginx\bin\nginx-1.10.1\nginx.exe"
 Add-Content F:\nginx\install-service.cmd "F:\nssm-2.24\win64\nssm.exe set Nginx Description ""The Nginx service"""
