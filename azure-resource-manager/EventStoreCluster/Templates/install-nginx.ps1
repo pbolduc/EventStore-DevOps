@@ -47,6 +47,13 @@ New-NetFirewallRule -Name Allow_80_In `
 					-Action Allow `
 					-LocalPort 80
 
+New-NetFirewallRule -Name Allow_443_In `
+					-DisplayName "Allow inbound port 443 traffic" `
+					-Protocol TCP `
+					-Direction Inbound `
+					-Action Allow `
+					-LocalPort 443
+
 Copy-Item '.\nginx.conf' 'F:\nginx\bin\nginx-1.10.1\conf\nginx.conf' -Force
 Copy-Item '.\cacert.pem' 'F:\nginx\bin\nginx-1.10.1\conf\cacert.pem' -Force
 Copy-Item '.\privkey.pem' 'F:\nginx\bin\nginx-1.10.1\conf\privkey.pem' -Force
