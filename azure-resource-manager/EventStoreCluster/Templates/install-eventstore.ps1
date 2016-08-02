@@ -23,7 +23,9 @@ param (
     [Int]
     $ExtHttpPort = 2113,
 	[string]
-	$downloadDirectory
+	$downloadDirectory,
+	[string]
+	$RunProjections = "All"
 )
 
 function Extract-ZipFile($file, $destination) {
@@ -108,7 +110,7 @@ Add-Content F:\eventstore\config.yaml "IntIp:            $ipAddress`n"
 Add-Content F:\eventstore\config.yaml "ClusterSize:      $ClusterSize`n"
 Add-Content F:\eventstore\config.yaml "DiscoverViaDns:   false`n"
 Add-Content F:\eventstore\config.yaml "GossipSeed:       10.0.1.4:$IntHttpPort,10.0.1.5:$IntHttpPort,10.0.1.6:$IntHttpPort`n"
-Add-Content F:\eventstore\config.yaml "RunProjections:   ALL`n"
+Add-Content F:\eventstore\config.yaml "RunProjections:   $RunProjections`n"
 
 Add-Content F:\eventstore\install-service.cmd "F:\nssm-2.24\win64\nssm.exe install EventStore F:\eventstore\bin\EventStore.ClusterNode.exe --config F:\eventstore\config.yaml"
 Add-Content F:\eventstore\install-service.cmd "F:\nssm-2.24\win64\nssm.exe set EventStore Description ""The EventStore service"""

@@ -152,6 +152,15 @@
         "description": "Event Store version to install"
       }
     },
+    "esRunProjections": {
+      "type": "string",
+      "defaultValue": "All",
+      "allowedValues": [
+        "None",
+        "System",
+        "All"
+      ]
+    },
     "githubAccount": {
       "type": "string",
       "defaultValue": "pbolduc",
@@ -240,7 +249,7 @@
           "autoUpgradeMinorVersion": true,
           "settings": {
             "fileUris": "[variables('windowsScripts')]",
-            "commandToExecute": "[concat('powershell.exe -File master.ps1 -ClusterSize ',parameters('vmEventStoreNodeCount'),' -esVer ',parameters('esVersion'))]"
+            "commandToExecute": "[concat('powershell.exe -File master.ps1 -ClusterSize ',parameters('vmEventStoreNodeCount'),' -esVer ',parameters('esVersion'), ' -esRunProjections ',parameters('esRunProjections'))]"
           }
         }
       }

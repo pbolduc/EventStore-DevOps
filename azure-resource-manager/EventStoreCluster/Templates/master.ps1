@@ -4,6 +4,7 @@
 param(
 	[Int32]$ClusterSize,
 	[string]$esVer,
+	[string]$esRunProjections,
 	[string]$nginxVer="1.10.1",
 	[string]$nginxUrl="http://nginx.org/download/nginx-1.10.1.zip"
 )
@@ -20,6 +21,7 @@ New-Item $downloadDirectory -ItemType Directory | Out-Null
 
 # TODO: These parameters should come from the template!
 . .\install-eventstore.ps1 -EventStoreVersion $esVer `
+						   -RunProjections $esRunProjections `
 						   -nssmDownloadUrl "https://nssm.cc/release/nssm-2.24.zip" `
 						   -ClusterSize $ClusterSize `
 						   -downloadDirectory $downloadDirectory
