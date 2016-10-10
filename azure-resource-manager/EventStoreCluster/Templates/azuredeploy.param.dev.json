@@ -15,7 +15,10 @@
       "value": 3
     },
     "vmSizeEventStoreNode": {
-      "value": "Standard_DS3_v2" 
+      "value": "Standard_DS3_v2"
+    },
+    "vmEventStoreDataDiskSize": {
+      "value": 128
     },
     "githubAccount": {
       "value": "agconnections" 
