@@ -45,12 +45,15 @@
     <Content Include="Templates\azuredeploy.param.dev.json" />
     <Content Include="Templates\jumpbox-resources.json" />
     <Content Include="Templates\shared-resources.json" />
+    <None Include="Templates\cacert.pem" />
     <None Include="Templates\empty-resources.json" />
     <None Include="Templates\eventstore-ubuntu-sources.txt" />
     <None Include="Templates\eventstore-windows-sources.csv" />
     <None Include="Templates\install-eventstore.ps1" />
     <None Include="Templates\install-nginx.ps1" />
     <None Include="Templates\master.ps1" />
+    <None Include="Templates\nginx.conf" />
+    <None Include="Templates\privkey.pem" />
     <None Include="Tools\AzCopy.exe" />
     <None Include="Tools\Microsoft.Data.Edm.dll">
       <Visible>False</Visible>

@@ -48,6 +48,20 @@
         "description": "Virtual Network"
       }
     },
+    "subnetName": {
+      "type": "string",
+      "defaultValue": "eventstore",
+      "metadata": {
+        "description": "Subnet"
+      }
+    },
+    "namespace": {
+      "type": "string",
+      "defaultValue": "es",
+      "metadata": {
+        "description": "Namespace for vms, ips, etc."
+      }
+    },
     "OS": {
       "type": "string",
       "defaultValue": "windows",
@@ -86,7 +100,7 @@
     },
     "vmSizeEventStoreNode": {
       "type": "string",
-      "defaultValue": "Standard_D2",
+      "defaultValue": "Standard_DS2_v2",
       "allowedValues": [
         "Standard_D1",
         "Standard_D2",
@@ -100,7 +114,17 @@
         "Standard_DS2",
         "Standard_DS3",
         "Standard_DS4",
-        "Standard_DS13"
+        "Standard_DS13",
+        "Standard_DS1_v2",
+        "Standard_DS2_v2",
+        "Standard_DS3_v2",
+        "Standard_DS4_v2",
+        "Standard_DS5_v2",
+        "Standard_DS11_v2",
+        "Standard_DS12_v2",
+        "Standard_DS13_v2",
+        "Standard_DS14_v2",
+        "Standard_DS15_v2"
       ],
       "metadata": {
         "description": "Size of the Event Store data nodes"
@@ -115,8 +139,12 @@
     },
     "esVersion": {
       "type": "string",
-      "defaultValue": "3.8.1",
+      "defaultValue": "3.9.3",
       "allowedValues": [
+        "3.9.3",
+        "3.9.2",
+        "3.9.1",
+        "3.9.0",
         "3.8.1",
         "3.8.0",
         "3.7.0",
@@ -141,6 +169,15 @@
       "metadata": {
         "description": "Event Store version to install"
       }
+    },
+    "esRunProjections": {
+      "type": "string",
+      "defaultValue": "All",
+      "allowedValues": [
+        "None",
+        "System",
+        "All"
+      ]
     },
     "githubAccount": {
       "type": "string",
@@ -195,7 +232,7 @@
       "addressPrefix": "10.0.0.0/16",
       "subnet": {
         "eventstore": {
-          "name": "eventstore",
+          "name": "[parameters('subnetName')]",
           "prefix": "10.0.1.0/28",
           "networkPrefix": "10.0.1",
           "vnet": "[parameters('virtualNetworkName')]"
@@ -210,8 +247,11 @@
       "[concat(variables('templateBaseUrl'), 'master.ps1')]",
       "[concat(variables('templateBaseUrl'), 'create-data-disks.ps1')]",
       "[concat(variables('templateBaseUrl'), 'install-eventstore.ps1')]",
+      "[concat(variables('templateBaseUrl'), 'install-nginx.ps1')]",
       "[concat(variables('templateBaseUrl'), 'eventstore-windows-sources.csv')]",
-      "[concat(variables('templateBaseUrl'), 'install-nginx.ps1')]"
+      "[concat(variables('templateBaseUrl'), 'nginx.conf')]",
+      "[concat(variables('templateBaseUrl'), 'cacert.pem')]",
+      "[concat(variables('templateBaseUrl'), 'privkey.pem')]"
     ],
     "windowsSettings": {
       "imageReference": {
@@ -229,7 +269,7 @@
           "autoUpgradeMinorVersion": true,
           "settings": {
             "fileUris": "[variables('windowsScripts')]",
-            "commandToExecute": "[concat('powershell.exe -File master.ps1 -ClusterSize ',parameters('vmEventStoreNodeCount'),' -esVer ',parameters('esVersion'))]"
+            "commandToExecute": "[concat('powershell.exe -File master.ps1 -ClusterSize ',parameters('vmEventStoreNodeCount'),' -esVer ',parameters('esVersion'), ' -esRunProjections ',parameters('esRunProjections'))]"
           }
         }
       }
@@ -277,6 +317,56 @@
         "storageAccountType": "Premium_LRS"
       },
       "Standard_DS13": {
+        "dataDisks": 16,
+        "nodesPerStorageAccount": 2,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_DS1_v2": {
+        "dataDisks": 2,
+        "nodesPerStorageAccount": 6,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_DS2_v2": {
+        "dataDisks": 4,
+        "nodesPerStorageAccount": 4,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_DS3_v2": {
+        "dataDisks": 8,
+        "nodesPerStorageAccount": 4,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_DS4_v2": {
+        "dataDisks": 16,
+        "nodesPerStorageAccount": 2,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_DS5_v2": {
+        "dataDisks": 16,
+        "nodesPerStorageAccount": 2,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_DS11_v2": {
+        "dataDisks": 16,
+        "nodesPerStorageAccount": 2,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_DS12_v2": {
+        "dataDisks": 16,
+        "nodesPerStorageAccount": 2,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_DS13_v2": {
+        "dataDisks": 16,
+        "nodesPerStorageAccount": 2,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_DS14_v2": {
+        "dataDisks": 16,
+        "nodesPerStorageAccount": 2,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_DS15_v2": {
         "dataDisks": 16,
         "nodesPerStorageAccount": 2,
         "storageAccountType": "Premium_LRS"
@@ -427,7 +517,7 @@
             "value": "[parameters('vmEventStoreDataDiskSize')]"
           },
           "namespace": {
-            "value": "es"
+            "value": "[parameters('namespace')]"
           },
           "osSettings": {
             "value": "[variables('osSettings')]"

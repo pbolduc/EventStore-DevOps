@@ -47,6 +47,24 @@ New-NetFirewallRule -Name Allow_80_In `
 					-Action Allow `
 					-LocalPort 80
 
+New-NetFirewallRule -Name Allow_443_In `
+					-DisplayName "Allow inbound port 443 traffic" `
+					-Protocol TCP `
+					-Direction Inbound `
+					-Action Allow `
+					-LocalPort 443
+
+New-NetFirewallRule -Name Allow_3389_In `
+					-DisplayName "Allow inbound port 3389 traffic" `
+					-Protocol TCP `
+					-Direction Inbound `
+					-Action Allow `
+					-LocalPort 3389
+
+Copy-Item '.\nginx.conf' 'F:\nginx\bin\nginx-1.10.1\conf\nginx.conf' -Force
+Copy-Item '.\cacert.pem' 'F:\nginx\bin\nginx-1.10.1\conf\cacert.pem' -Force
+Copy-Item '.\privkey.pem' 'F:\nginx\bin\nginx-1.10.1\conf\privkey.pem' -Force
+
 Add-Content F:\nginx\install-service.cmd "F:\nssm-2.24\win64\nssm.exe install Nginx F:\nginx\bin\nginx-1.10.1\nginx.exe"
 Add-Content F:\nginx\install-service.cmd "F:\nssm-2.24\win64\nssm.exe set Nginx Description ""The Nginx service"""
 

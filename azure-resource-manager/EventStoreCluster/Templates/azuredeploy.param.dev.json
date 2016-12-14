@@ -6,13 +6,31 @@
       "value": "EventStoreAdmin"
     },
     "adminPassword": {
-      "value":  "YourEventStoreVMPassword"
+      "value": "YourEventStoreVMPassword!123"
     },
-    "jumpbox":  {
+    "jumpbox": {
       "value": "No"
     },
-    "vmEventStoreNodeCount":  {
+    "namespace": {
+      "value": "test-es"
+    },
+    "subnetName": {
+      "value": "test-eventstore"
+    },
+    "virtualNetworkName": {
+      "value": "test-es-vnet"
+    },
+    "vmEventStoreNodeCount": {
       "value": 3
+    },
+    "vmSizeEventStoreNode": {
+      "value": "Standard_DS3_v2"
+    },
+    "vmEventStoreDataDiskSize": {
+      "value": 128
+    },
+    "githubAccount": {
+      "value": "agconnections"
     }
   }
 }
