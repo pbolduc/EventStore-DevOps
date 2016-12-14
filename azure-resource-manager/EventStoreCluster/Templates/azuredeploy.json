@@ -517,7 +517,7 @@
             "value": "[parameters('vmEventStoreDataDiskSize')]"
           },
           "namespace": {
-            "value": "es"
+            "value": "[parameters('namespace')]"
           },
           "osSettings": {
             "value": "[variables('osSettings')]"
