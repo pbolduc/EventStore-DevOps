@@ -48,6 +48,20 @@
         "description": "Virtual Network"
       }
     },
+    "subnetName": {
+      "type": "string",
+      "defaultValue": "eventstore",
+      "metadata": {
+        "description": "Subnet"
+      }
+    },
+    "namespace": {
+      "type": "string",
+      "defaultValue": "es",
+      "metadata": {
+        "description": "Namespace for vms, ips, etc."
+      }
+    },
     "OS": {
       "type": "string",
       "defaultValue": "windows",
@@ -98,7 +112,7 @@
         "Standard_A7",
         "Standard_DS1",
         "Standard_DS2",
-        "Standard_DS3",        
+        "Standard_DS3",
         "Standard_DS4",
         "Standard_DS13",
         "Standard_DS1_v2",
@@ -125,8 +139,12 @@
     },
     "esVersion": {
       "type": "string",
-      "defaultValue": "3.8.1",
+      "defaultValue": "3.9.3",
       "allowedValues": [
+        "3.9.3",
+        "3.9.2",
+        "3.9.1",
+        "3.9.0",
         "3.8.1",
         "3.8.0",
         "3.7.0",
@@ -214,7 +232,7 @@
       "addressPrefix": "10.0.0.0/16",
       "subnet": {
         "eventstore": {
-          "name": "eventstore",
+          "name": "[parameters('subnetName')]",
           "prefix": "10.0.1.0/28",
           "networkPrefix": "10.0.1",
           "vnet": "[parameters('virtualNetworkName')]"

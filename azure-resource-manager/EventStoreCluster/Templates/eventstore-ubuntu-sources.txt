@@ -2,6 +2,10 @@
 # to do: make this file contents something unbuntu shell script can process natively
 #
 
+"3.9.3": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.9.3.tar.gz",
+"3.9.2": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.9.2.tar.gz",
+"3.9.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.9.1.tar.gz",
+"3.9.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.9.0.tar.gz",
 "3.8.1": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.8.1.tar.gz",
 "3.8.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.8.0.tar.gz",
 "3.7.0": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.7.0.tar.gz",
